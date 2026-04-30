@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -34,6 +35,17 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ─── SCROLL ANIMATIONS ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* ─── NAV ─── */
     nav {
       position: sticky;
@@ -47,7 +59,12 @@
       background: rgba(13,13,13,0.78);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 0.5px solid var(--border);
+      border-bottom: 0.5px solid rgba(30,30,30,0.6);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    nav.scrolled {
+      background: rgba(8,8,8,0.95);
+      border-bottom-color: rgba(50,50,50,0.9);
     }
 
     .nav-left { display: flex; align-items: center; gap: 14px; }
@@ -61,7 +78,6 @@
     }
 
     .nav-icons { display: flex; align-items: center; gap: 10px; }
-
     .nav-icons a {
       color: var(--muted);
       transition: color .2s;
@@ -95,6 +111,7 @@
       flex-shrink: 0;
     }
 
+    /* ─── BUTTONS ─── */
     .btn-nav {
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
@@ -108,9 +125,53 @@
       border-radius: var(--r);
       cursor: pointer;
       text-decoration: none;
-      transition: opacity .2s;
+      transition: opacity .2s, transform .2s ease, box-shadow .2s ease;
     }
-    .btn-nav:hover { opacity: .85; }
+    .btn-nav:hover { opacity: .85; transform: scale(1.02); }
+
+    .btn-primary {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--bg-dark);
+      background: var(--accent);
+      border: none;
+      padding: 14px 28px;
+      border-radius: var(--r);
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity .2s, transform .2s ease, box-shadow .2s ease;
+    }
+    .btn-primary:hover {
+      opacity: .9;
+      transform: scale(1.02);
+      box-shadow: 0 0 20px rgba(122,184,212,0.3);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text);
+      background: transparent;
+      border: 0.5px solid var(--border2);
+      padding: 14px 28px;
+      border-radius: var(--r);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .2s, color .2s, transform .2s ease;
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: scale(1.02);
+    }
 
     /* ─── HERO ─── */
     #hero {
@@ -123,6 +184,11 @@
       overflow: hidden;
     }
 
+    @keyframes kenBurns {
+      0%   { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
+
     .hero-img {
       position: absolute;
       inset: 0;
@@ -130,6 +196,8 @@
       height: 100%;
       object-fit: cover;
       object-position: center top;
+      animation: kenBurns 12s ease-in-out infinite alternate;
+      transform-origin: center center;
     }
 
     .hero-scrim {
@@ -144,6 +212,29 @@
     .hero-content {
       position: relative;
       z-index: 1;
+    }
+
+    /* Hero load-in sequence */
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-content .label {
+      animation: heroFadeUp 0.6s ease both;
+      animation-delay: 0.1s;
+    }
+    .hero-content .hero-name {
+      animation: heroFadeUp 0.6s ease both;
+      animation-delay: 0.25s;
+    }
+    .hero-content .hero-tagline {
+      animation: heroFadeUp 0.6s ease both;
+      animation-delay: 0.4s;
+    }
+    .hero-content .hero-ctas {
+      animation: heroFadeUp 0.6s ease both;
+      animation-delay: 0.55s;
     }
 
     .label {
@@ -173,11 +264,14 @@
     }
     .hero-side-icons a {
       color: rgba(240,237,230,.45);
-      transition: color .2s;
+      transition: color .2s, transform .2s ease;
       display: flex;
       align-items: center;
     }
-    .hero-side-icons a:hover { color: var(--accent); }
+    .hero-side-icons a:hover {
+      color: var(--accent);
+      transform: scale(1.1);
+    }
 
     .hero-tagline {
       font-size: 15px;
@@ -188,42 +282,6 @@
     }
 
     .hero-ctas { display: flex; gap: 14px; align-items: center; }
-
-    .btn-primary {
-      display: inline-block;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--bg-dark);
-      background: var(--accent);
-      border: none;
-      padding: 14px 28px;
-      border-radius: var(--r);
-      cursor: pointer;
-      text-decoration: none;
-      transition: opacity .2s;
-    }
-    .btn-primary:hover { opacity: .85; }
-
-    .btn-ghost {
-      display: inline-block;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--text);
-      background: transparent;
-      border: 0.5px solid var(--border2);
-      padding: 14px 28px;
-      border-radius: var(--r);
-      cursor: pointer;
-      text-decoration: none;
-      transition: border-color .2s, color .2s;
-    }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ─── SECTIONS ─── */
     section { padding: 100px 64px; }
@@ -322,9 +380,7 @@
       gap: 0;
     }
 
-    .journey-divider {
-      align-self: center;
-    }
+    .journey-divider { align-self: center; }
 
     .journey-card {
       flex: 1;
@@ -356,6 +412,7 @@
       line-height: 1.5;
     }
 
+    /* Natural aspect ratio — no fixed height, no cropping */
     .journey-card img {
       width: 100%;
       height: auto;
@@ -388,7 +445,6 @@
     /* ─── SHOWCASE ─── */
     #showcase { background: var(--bg-dark); }
 
-    /* main video — portrait, centered */
     .showcase-main {
       display: flex;
       justify-content: center;
@@ -399,7 +455,7 @@
       position: relative;
       border-radius: var(--r);
       overflow: hidden;
-      background: #1a1a1a;
+      background: var(--bg-dark);
       border: 0.5px solid var(--border);
       cursor: pointer;
     }
@@ -411,17 +467,10 @@
       object-fit: cover;
     }
 
-    /* portrait 9:16 */
     .vid-portrait {
       width: 100%;
       max-width: 400px;
       aspect-ratio: 9 / 16;
-    }
-
-    /* landscape 16:9 */
-    .vid-landscape {
-      width: 100%;
-      aspect-ratio: 16 / 9;
     }
 
     .vid-overlay {
@@ -431,8 +480,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      background: rgba(0,0,0,0.4);
+      gap: 14px;
+      background: rgba(0,0,0,0.45);
       opacity: 1;
       transition: opacity .3s;
     }
@@ -443,42 +492,29 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      border: 1.5px solid rgba(240,237,230,.55);
+      border: 1.5px solid var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: border-color .2s, transform .2s;
+      transition: transform .2s ease, border-color .2s;
     }
-
-    .vid-wrap:hover .play-ring {
-      border-color: var(--accent);
-      transform: scale(1.05);
-    }
-
     .play-ring svg { margin-left: 3px; }
 
     .vid-overlay-txt {
       font-size: 9px;
-      letter-spacing: 3px;
+      letter-spacing: 4px;
       text-transform: uppercase;
-      color: rgba(240,237,230,.45);
+      color: rgba(240,237,230,.5);
+      font-family: 'DM Sans', sans-serif;
     }
 
-    /* sub video grid — 3 portrait columns */
     .showcase-subs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
     }
-
-    .showcase-subs .vid-portrait {
-      max-width: 100%;
-    }
-
-    .showcase-subs .play-ring {
-      width: 48px;
-      height: 48px;
-    }
+    .showcase-subs .vid-portrait { max-width: 100%; }
+    .showcase-subs .play-ring { width: 48px; height: 48px; }
 
     /* ─── SERVICES ─── */
     #services { background: var(--bg); }
@@ -492,18 +528,33 @@
 
     .service-card {
       flex: 0 0 calc(33.333% - 11px);
+      position: relative;
+      overflow: hidden;
       background: var(--surface);
       border: 0.5px solid var(--border);
       border-radius: var(--r);
       padding: 28px 24px;
       text-decoration: none;
       color: var(--text);
-      transition: border-color .2s, transform .2s;
+      transition: border-color .2s, transform .2s ease;
       display: block;
     }
 
+    /* Left border accent slides up from bottom */
+    .service-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 2px;
+      height: 0;
+      background: var(--accent);
+      transition: height 0.25s ease;
+      border-radius: 2px 2px 0 0;
+    }
+    .service-card:hover::before { height: 100%; }
     .service-card:hover {
-      border-color: var(--accent);
+      border-color: rgba(122,184,212,0.3);
       transform: translateY(-2px);
     }
 
@@ -549,7 +600,6 @@
       padding: 80px 64px;
       text-align: center;
     }
-
     #socials .section-title { margin-bottom: 44px; }
 
     .socials-row {
@@ -571,9 +621,13 @@
       text-transform: uppercase;
       color: var(--text);
       text-decoration: none;
-      transition: border-color .2s, color .2s;
+      transition: border-color .2s, color .2s, transform .2s ease;
     }
-    .social-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .social-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: scale(1.02);
+    }
 
     /* ─── CONTACT ─── */
     #contact { background: var(--bg); }
@@ -613,8 +667,8 @@
     }
 
     .qr-box {
-      width: 92px;
-      height: 92px;
+      width: 96px;
+      height: 96px;
       background: var(--surface2);
       border: 0.5px solid var(--border2);
       border-radius: 4px;
@@ -622,7 +676,12 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      overflow: hidden;
     }
+
+    /* qrcodejs renders a table + canvas — make it fit cleanly */
+    .qr-box canvas,
+    .qr-box img { display: block; }
 
     .qr-head {
       font-family: 'Bebas Neue', sans-serif;
@@ -652,7 +711,6 @@
       letter-spacing: 2px;
       color: var(--muted);
     }
-
     .footer-right a { color: var(--accent); text-decoration: none; }
 
     /* ─── MOBILE ─── */
@@ -661,7 +719,8 @@
       .nav-links { display: none; }
 
       section { padding: 70px 24px; }
-      #socials, #qr { padding: 56px 24px; }
+      #socials { padding: 56px 24px; }
+      #qr { padding: 40px 24px; flex-direction: column; text-align: center; }
       footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
 
       #hero { padding: 0 24px 56px; }
@@ -670,7 +729,7 @@
       .contact-grid { grid-template-columns: 1fr; gap: 40px; }
 
       .journey-wrap { flex-direction: column; }
-      .journey-divider { flex-direction: row; width: 100%; padding-top: 0; }
+      .journey-divider { flex-direction: row; width: 100%; }
       .divider-line { width: 60px; height: 0.5px; }
 
       .services-flex { flex-direction: column; }
@@ -679,7 +738,6 @@
       .showcase-subs { grid-template-columns: 1fr; }
       .vid-portrait { max-width: 100%; }
 
-      #qr { flex-direction: column; text-align: center; }
       .socials-row { flex-direction: column; align-items: stretch; }
     }
   </style>
@@ -687,7 +745,7 @@
 <body>
 
 <!-- ── NAV ── -->
-<nav>
+<nav id="main-nav">
   <div class="nav-left">
     <a href="#hero" class="nav-brand">Paril</a>
     <div class="nav-icons">
@@ -751,32 +809,32 @@
 <section id="about">
   <div class="about-grid">
     <div>
-      <p class="label">The Barber</p>
-      <h2 class="section-title">About Paril</h2>
-      <p class="about-bio">
+      <p class="label fade-up">The Barber</p>
+      <h2 class="section-title fade-up" style="transition-delay:80ms">About Paril</h2>
+      <p class="about-bio fade-up" style="transition-delay:160ms">
         Paril brings precision to every cut. Based at Fade Mansion, he's built a reputation for clean fades, sharp lines, and a chair-side energy that keeps clients coming back. Off the court, he's behind the chair — putting the same focus into every session that he brings to the game.
       </p>
       <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card fade-up" style="transition-delay:240ms">
           <div class="stat-num">5+</div>
           <div class="stat-lbl">Years Cutting</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card fade-up" style="transition-delay:340ms">
           <div class="stat-num">4.9</div>
           <div class="stat-lbl">Rating</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card fade-up" style="transition-delay:440ms">
           <div class="stat-num">500+</div>
           <div class="stat-lbl">Happy Clients</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card fade-up" style="transition-delay:540ms">
           <div class="stat-num">100%</div>
           <div class="stat-lbl">Satisfaction</div>
         </div>
       </div>
     </div>
 
-    <div class="about-photo">
+    <div class="about-photo fade-up" style="transition-delay:200ms">
       <img src="images/basketball_web.jpg" alt="Paril off the court" />
       <div class="photo-tag">Off the court, on the chair</div>
     </div>
@@ -785,11 +843,11 @@
 
 <!-- ── JOURNEY ── -->
 <section id="journey">
-  <p class="label">The Come Up</p>
-  <h2 class="section-title">Where I Started.<br>Where I Cut Now.</h2>
+  <p class="label fade-up">The Come Up</p>
+  <h2 class="section-title fade-up" style="transition-delay:80ms">Where I Started.<br>Where I Cut Now.</h2>
 
   <div class="journey-wrap">
-    <div class="journey-card">
+    <div class="journey-card fade-up" style="transition-delay:160ms">
       <div class="journey-caption">
         <div class="journey-caption-lbl">The Beginning</div>
         <div class="journey-caption-txt">Started in the basement — just clippers, a chair, and a vision.</div>
@@ -803,7 +861,7 @@
       <div class="divider-line"></div>
     </div>
 
-    <div class="journey-card">
+    <div class="journey-card fade-up" style="transition-delay:280ms">
       <div class="journey-caption">
         <div class="journey-caption-lbl">Now</div>
         <div class="journey-caption-txt">Holding it down at Fade Mansion. The craft elevated, the energy the same.</div>
@@ -815,12 +873,11 @@
 
 <!-- ── SHOWCASE ── -->
 <section id="showcase">
-  <p class="label">The Work</p>
-  <h2 class="section-title">See It for Yourself</h2>
+  <p class="label fade-up">The Work</p>
+  <h2 class="section-title fade-up" style="transition-delay:80ms">See It for Yourself</h2>
 
-  <!-- Main video (portrait 9:16) -->
-  <div class="showcase-main">
-    <div class="vid-wrap vid-portrait" onclick="playVid(this)">
+  <div class="showcase-main fade-up" style="transition-delay:160ms">
+    <div class="vid-wrap vid-portrait">
       <video src="images/main.mp4" playsinline preload="none"></video>
       <div class="vid-overlay">
         <div class="play-ring">
@@ -828,14 +885,13 @@
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
         </div>
-        <span class="vid-overlay-txt">Play</span>
+        <span class="vid-overlay-txt">Video coming soon</span>
       </div>
     </div>
   </div>
 
-  <!-- Sub videos (3-col, all portrait containers) -->
   <div class="showcase-subs">
-    <div class="vid-wrap vid-portrait" onclick="playVid(this)">
+    <div class="vid-wrap vid-portrait fade-up" style="transition-delay:200ms">
       <video src="images/second.mp4" playsinline preload="none"></video>
       <div class="vid-overlay">
         <div class="play-ring">
@@ -843,11 +899,11 @@
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
         </div>
-        <span class="vid-overlay-txt">Play</span>
+        <span class="vid-overlay-txt">Video coming soon</span>
       </div>
     </div>
 
-    <div class="vid-wrap vid-portrait" onclick="playVid(this)">
+    <div class="vid-wrap vid-portrait fade-up" style="transition-delay:300ms">
       <video src="images/third.mp4" playsinline preload="none"></video>
       <div class="vid-overlay">
         <div class="play-ring">
@@ -855,11 +911,11 @@
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
         </div>
-        <span class="vid-overlay-txt">Play</span>
+        <span class="vid-overlay-txt">Video coming soon</span>
       </div>
     </div>
 
-    <div class="vid-wrap vid-portrait" onclick="playVid(this)">
+    <div class="vid-wrap vid-portrait fade-up" style="transition-delay:400ms">
       <video src="images/fourth.mp4" playsinline preload="none"></video>
       <div class="vid-overlay">
         <div class="play-ring">
@@ -867,7 +923,7 @@
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
         </div>
-        <span class="vid-overlay-txt">Play</span>
+        <span class="vid-overlay-txt">Video coming soon</span>
       </div>
     </div>
   </div>
@@ -875,11 +931,11 @@
 
 <!-- ── SERVICES ── -->
 <section id="services">
-  <p class="label">Pricing</p>
-  <h2 class="section-title">Services</h2>
+  <p class="label fade-up">Pricing</p>
+  <h2 class="section-title fade-up" style="transition-delay:80ms">Services</h2>
 
   <div class="services-flex">
-    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card fade-up" style="transition-delay:100ms" target="_blank">
       <div class="service-name">Fade / Beard / Scissorcut</div>
       <p class="service-desc">Full fade with beard detail and scissor finish. The complete package.</p>
       <div class="service-footer">
@@ -888,7 +944,7 @@
       </div>
     </a>
 
-    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card fade-up" style="transition-delay:200ms" target="_blank">
       <div class="service-name">Fade &amp; Scissorcut (No Beard)</div>
       <p class="service-desc">Clean fade and scissor cut — styled to your look, no beard work.</p>
       <div class="service-footer">
@@ -897,7 +953,7 @@
       </div>
     </a>
 
-    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card fade-up" style="transition-delay:300ms" target="_blank">
       <div class="service-name">Shape Up</div>
       <p class="service-desc">Sharp edge-up to keep your line fresh and defined between cuts.</p>
       <div class="service-footer">
@@ -906,7 +962,7 @@
       </div>
     </a>
 
-    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card fade-up" style="transition-delay:400ms" target="_blank">
       <div class="service-name">Shapeup With Beard</div>
       <p class="service-desc">Edge-up plus beard lineup — clean from top to bottom.</p>
       <div class="service-footer">
@@ -915,7 +971,7 @@
       </div>
     </a>
 
-    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card fade-up" style="transition-delay:500ms" target="_blank">
       <div class="service-name">Beard Only</div>
       <p class="service-desc">Detail and shape your beard to look intentional and clean.</p>
       <div class="service-footer">
@@ -928,22 +984,22 @@
 
 <!-- ── SOCIALS ── -->
 <section id="socials">
-  <p class="label" style="display:flex;justify-content:center">Connect</p>
-  <h2 class="section-title">Find Me Online</h2>
+  <p class="label fade-up" style="display:flex;justify-content:center">Connect</p>
+  <h2 class="section-title fade-up" style="transition-delay:80ms">Find Me Online</h2>
   <div class="socials-row">
-    <a href="https://www.instagram.com/parilthebarber/?hl=en" class="social-btn" target="_blank">
+    <a href="https://www.instagram.com/parilthebarber/?hl=en" class="social-btn fade-up" style="transition-delay:160ms" target="_blank">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
       </svg>
       Instagram
     </a>
-    <a href="https://www.tiktok.com/@parilerz?lang=en" class="social-btn" target="_blank">
+    <a href="https://www.tiktok.com/@parilerz?lang=en" class="social-btn fade-up" style="transition-delay:260ms" target="_blank">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
         <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/>
       </svg>
       TikTok
     </a>
-    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="social-btn" target="_blank">
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="social-btn fade-up" style="transition-delay:360ms" target="_blank">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
       </svg>
@@ -955,13 +1011,13 @@
 <!-- ── CONTACT + LOCATION ── -->
 <section id="contact">
   <div class="contact-grid">
-    <div>
+    <div class="fade-up">
       <p class="label">Get in Touch</p>
       <h3 class="contact-head">Contact</h3>
       <p class="contact-sub">Questions? Reach out directly.</p>
-      <a href="mailto:YOUR_EMAIL@gmail.com" class="btn-ghost">Email Paril</a>
+      <a href="mailto:parilthebarber@gmail.com" class="btn-ghost">Email Paril</a>
     </div>
-    <div>
+    <div class="fade-up" style="transition-delay:150ms">
       <p class="label">Where to Find Us</p>
       <h3 class="contact-head">Location</h3>
       <p class="loc-addr">122 Durham Ave</p>
@@ -972,26 +1028,8 @@
 </section>
 
 <!-- ── QR ── -->
-<div id="qr">
-  <div class="qr-box">
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-      <rect x="4"  y="4"  width="24" height="24" rx="2" fill="none" stroke="#444" stroke-width="2"/>
-      <rect x="10" y="10" width="12" height="12" fill="#444"/>
-      <rect x="36" y="4"  width="24" height="24" rx="2" fill="none" stroke="#444" stroke-width="2"/>
-      <rect x="42" y="10" width="12" height="12" fill="#444"/>
-      <rect x="4"  y="36" width="24" height="24" rx="2" fill="none" stroke="#444" stroke-width="2"/>
-      <rect x="10" y="42" width="12" height="12" fill="#444"/>
-      <rect x="36" y="36" width="6"  height="6"  fill="#444"/>
-      <rect x="46" y="36" width="6"  height="6"  fill="#444"/>
-      <rect x="56" y="36" width="4"  height="4"  fill="#444"/>
-      <rect x="36" y="46" width="4"  height="4"  fill="#444"/>
-      <rect x="44" y="44" width="8"  height="8"  fill="#444"/>
-      <rect x="56" y="44" width="4"  height="4"  fill="#444"/>
-      <rect x="36" y="56" width="6"  height="4"  fill="#444"/>
-      <rect x="46" y="54" width="4"  height="6"  fill="#444"/>
-      <rect x="54" y="52" width="6"  height="4"  fill="#444"/>
-    </svg>
-  </div>
+<div id="qr" class="fade-up">
+  <div class="qr-box" id="qr-canvas"></div>
   <div>
     <p class="label">Scan to Book</p>
     <div class="qr-head">Book Your Appointment</div>
@@ -1006,7 +1044,32 @@
 </footer>
 
 <script>
-  // Hover-to-play videos — click for sound + controls
+  /* ── SCROLL ANIMATIONS ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  /* ── NAV SCROLL BEHAVIOUR ── */
+  const nav = document.getElementById('main-nav');
+  let lastY = 0;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > 60) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+    lastY = y;
+  }, { passive: true });
+
+  /* ── VIDEO HOVER-TO-PLAY ── */
   document.querySelectorAll('.vid-wrap').forEach(wrapper => {
     const vid = wrapper.querySelector('video');
     const overlay = wrapper.querySelector('.vid-overlay');
@@ -1017,7 +1080,7 @@
     });
 
     wrapper.addEventListener('mouseleave', () => {
-      if (vid.muted) { // only reset if still in muted/preview mode
+      if (vid.muted) {
         vid.pause();
         vid.currentTime = 0;
       }
@@ -1032,7 +1095,7 @@
     });
 
     wrapper.addEventListener('click', () => {
-      if (overlay.style.display === 'none') return; // already playing with controls
+      if (overlay.style.display === 'none') return;
       vid.muted = false;
       vid.controls = true;
       overlay.style.display = 'none';
@@ -1040,7 +1103,7 @@
     });
   });
 
-  // Directions — pre-fills destination so user just taps Start
+  /* ── DIRECTIONS ── */
   function openDirections(e) {
     e.preventDefault();
     const dest = encodeURIComponent('122 Durham Ave, South Plainfield, NJ 07080');
@@ -1051,9 +1114,20 @@
     window.open(url, '_blank');
   }
 
-  document.getElementById('hero-directions').addEventListener('click', openDirections);
-  document.getElementById('nav-directions').addEventListener('click', openDirections);
-  document.getElementById('directions-btn').addEventListener('click', openDirections);
+  ['hero-directions', 'nav-directions', 'directions-btn'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', openDirections);
+  });
+
+  /* ── QR CODE ── */
+  new QRCode(document.getElementById('qr-canvas'), {
+    text: 'https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber',
+    width: 88,
+    height: 88,
+    colorDark: '#f0ede6',
+    colorLight: '#161616',
+    correctLevel: QRCode.CorrectLevel.M
+  });
 </script>
 </body>
 </html>
