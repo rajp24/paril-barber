@@ -931,7 +931,7 @@
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
         </div>
-        <span class="vid-overlay-txt">Video coming soon</span>
+        <span class="vid-overlay-txt">Hover to watch</span>
       </div>
     </div>
   </div>
@@ -945,7 +945,7 @@
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
         </div>
-        <span class="vid-overlay-txt">Video coming soon</span>
+        <span class="vid-overlay-txt">Hover to watch</span>
       </div>
     </div>
 
@@ -957,7 +957,7 @@
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
         </div>
-        <span class="vid-overlay-txt">Video coming soon</span>
+        <span class="vid-overlay-txt">Hover to watch</span>
       </div>
     </div>
 
@@ -969,7 +969,7 @@
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
         </div>
-        <span class="vid-overlay-txt">Video coming soon</span>
+        <span class="vid-overlay-txt">Hover to watch</span>
       </div>
     </div>
   </div>
@@ -1086,7 +1086,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">Paril · Fade Mansion</div>
-  <div class="footer-right">Powered by <a href="#">[Your Brand]</a></div>
+  <div class="footer-right">Powered by <a href="#">Mindset LLC</a></div>
 </footer>
 
 <script>
@@ -1117,36 +1117,37 @@
 
   /* ── VIDEO HOVER-TO-PLAY (desktop) + TAP-TO-PLAY (mobile) ── */
   const isTouch = window.matchMedia('(hover: none)').matches;
+  if (isTouch) {
+    document.querySelectorAll('.vid-overlay-txt').forEach(el => el.textContent = 'Tap to watch');
+  }
 
   document.querySelectorAll('.vid-wrap').forEach(wrapper => {
     const vid = wrapper.querySelector('video');
     const overlay = wrapper.querySelector('.vid-overlay');
 
-    function playWithSound() {
-      vid.muted = false;
+    function playMuted() {
+      vid.muted = true;
       vid.controls = true;
       overlay.style.display = 'none';
       vid.play();
     }
 
     if (isTouch) {
-      // Mobile: single tap plays immediately with sound
-      wrapper.addEventListener('click', playWithSound);
+      // Mobile: tap plays muted with controls
+      wrapper.addEventListener('click', playMuted);
     } else {
-      // Desktop: hover to preview muted, click for sound
+      // Desktop: hover previews, click shows controls
       wrapper.addEventListener('mouseenter', () => {
         vid.muted = true;
         vid.play().catch(() => {});
       });
       wrapper.addEventListener('mouseleave', () => {
-        if (vid.muted) {
-          vid.pause();
-          vid.currentTime = 0;
-        }
+        vid.pause();
+        vid.currentTime = 0;
       });
-      overlay.addEventListener('click', (e) => { e.stopPropagation(); playWithSound(); });
+      overlay.addEventListener('click', (e) => { e.stopPropagation(); playMuted(); });
       wrapper.addEventListener('click', () => {
-        if (overlay.style.display !== 'none') playWithSound();
+        if (overlay.style.display !== 'none') playMuted();
       });
     }
   });
@@ -1157,7 +1158,7 @@
     const dest = encodeURIComponent('122 Durham Ave, South Plainfield, NJ 07080');
     const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     const url = ios
-      ? 'maps.apple.com/?daddr=' + dest + '&dirflg=d'
+      ? 'https://maps.apple.com/?daddr=' + dest + '&dirflg=d'
       : 'https://www.google.com/maps/dir/?api=1&destination=' + dest;
     window.open(url, '_blank');
   }
