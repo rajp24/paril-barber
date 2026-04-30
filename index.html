@@ -318,8 +318,12 @@
 
     .journey-wrap {
       display: flex;
-      align-items: center;
+      align-items: stretch;
       gap: 0;
+    }
+
+    .journey-divider {
+      align-self: center;
     }
 
     .journey-card {
@@ -330,7 +334,6 @@
       border: 0.5px solid var(--border);
       border-radius: var(--r);
       overflow: hidden;
-      height: 480px;
     }
 
     .journey-caption {
@@ -355,11 +358,8 @@
 
     .journey-card img {
       width: 100%;
-      flex: 1;
-      object-fit: cover;
-      object-position: center top;
+      height: auto;
       display: block;
-      min-height: 0;
     }
 
     .journey-divider {
