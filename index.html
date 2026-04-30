@@ -11,16 +11,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #111;
-      --bg-dark: #0d0d0d;
-      --surface: #141414;
+      --bg:       #111;
+      --bg-dark:  #0d0d0d;
+      --surface:  #141414;
       --surface2: #161616;
-      --border: #1e1e1e;
-      --border2: #252525;
-      --accent: #7ab8d4;
-      --text: #f0ede6;
-      --text-muted: #888;
-      --radius: 6px;
+      --border:   #1e1e1e;
+      --border2:  #252525;
+      --accent:   #7ab8d4;
+      --text:     #f0ede6;
+      --muted:    #888;
+      --r:        6px;
     }
 
     html { scroll-behavior: smooth; }
@@ -34,7 +34,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── NAV ── */
+    /* ─── NAV ─── */
     nav {
       position: sticky;
       top: 0;
@@ -42,19 +42,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
+      padding: 0 48px;
       height: 64px;
-      background: rgba(13, 13, 13, 0.75);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(13,13,13,0.78);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 0.5px solid var(--border);
     }
 
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+    .nav-left { display: flex; align-items: center; gap: 14px; }
 
     .nav-brand {
       font-family: 'Bebas Neue', sans-serif;
@@ -64,36 +60,30 @@
       text-decoration: none;
     }
 
-    .nav-icons {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .nav-icons { display: flex; align-items: center; gap: 10px; }
 
     .nav-icons a {
-      color: var(--text-muted);
-      transition: color 0.2s;
-      line-height: 0;
+      color: var(--muted);
+      transition: color .2s;
+      display: flex;
+      align-items: center;
     }
-
     .nav-icons a:hover { color: var(--accent); }
 
-    .nav-center {
+    .nav-links {
       display: flex;
       align-items: center;
       gap: 32px;
     }
-
-    .nav-center a {
-      font-size: 12px;
+    .nav-links a {
+      font-size: 11px;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--muted);
       text-decoration: none;
-      transition: color 0.2s;
+      transition: color .2s;
     }
-
-    .nav-center a:hover { color: var(--text); }
+    .nav-links a:hover { color: var(--text); }
 
     .btn-nav {
       font-family: 'DM Sans', sans-serif;
@@ -104,55 +94,41 @@
       color: var(--bg-dark);
       background: var(--accent);
       border: none;
-      padding: 10px 20px;
-      border-radius: var(--radius);
+      padding: 10px 22px;
+      border-radius: var(--r);
       cursor: pointer;
       text-decoration: none;
-      transition: opacity 0.2s;
+      transition: opacity .2s;
     }
+    .btn-nav:hover { opacity: .85; }
 
-    .btn-nav:hover { opacity: 0.85; }
-
-    /* ── HERO ── */
+    /* ─── HERO ─── */
     #hero {
       position: relative;
       height: 100vh;
       min-height: 600px;
       display: flex;
       align-items: flex-end;
-      padding: 0 60px 80px;
+      padding: 0 64px 80px;
       overflow: hidden;
     }
 
-    .hero-bg {
+    .hero-img {
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #333;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
     }
 
-    .hero-bg::after {
-      content: '';
+    .hero-scrim {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.2) 100%);
-    }
-
-    .hero-img-placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      z-index: 0;
+      background: linear-gradient(to top,
+        rgba(0,0,0,0.9) 0%,
+        rgba(0,0,0,0.45) 50%,
+        rgba(0,0,0,0.1) 100%);
     }
 
     .hero-content {
@@ -160,7 +136,7 @@
       z-index: 1;
     }
 
-    .hero-label {
+    .label {
       font-size: 10px;
       letter-spacing: 4px;
       text-transform: uppercase;
@@ -170,46 +146,41 @@
 
     .hero-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(80px, 14vw, 160px);
+      font-size: clamp(80px, 13vw, 150px);
       letter-spacing: 8px;
-      line-height: 0.9;
+      line-height: .92;
       color: var(--text);
       display: flex;
-      align-items: center;
-      gap: 24px;
+      align-items: flex-end;
+      gap: 20px;
     }
 
-    .hero-socials {
+    .hero-side-icons {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      align-self: flex-end;
-      padding-bottom: 8px;
+      gap: 10px;
+      padding-bottom: 6px;
     }
-
-    .hero-socials a {
-      color: rgba(240,237,230,0.5);
-      transition: color 0.2s;
-      line-height: 0;
-    }
-
-    .hero-socials a:hover { color: var(--accent); }
-
-    .hero-tagline {
-      font-size: 16px;
-      color: rgba(240,237,230,0.65);
-      margin: 20px 0 32px;
-      max-width: 380px;
-      line-height: 1.6;
-    }
-
-    .hero-ctas {
+    .hero-side-icons a {
+      color: rgba(240,237,230,.45);
+      transition: color .2s;
       display: flex;
-      gap: 16px;
       align-items: center;
     }
+    .hero-side-icons a:hover { color: var(--accent); }
+
+    .hero-tagline {
+      font-size: 15px;
+      color: rgba(240,237,230,.62);
+      margin: 18px 0 30px;
+      max-width: 360px;
+      line-height: 1.65;
+    }
+
+    .hero-ctas { display: flex; gap: 14px; align-items: center; }
 
     .btn-primary {
+      display: inline-block;
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
       font-weight: 500;
@@ -219,16 +190,15 @@
       background: var(--accent);
       border: none;
       padding: 14px 28px;
-      border-radius: var(--radius);
+      border-radius: var(--r);
       cursor: pointer;
       text-decoration: none;
-      transition: opacity 0.2s;
-      display: inline-block;
+      transition: opacity .2s;
     }
-
-    .btn-primary:hover { opacity: 0.85; }
+    .btn-primary:hover { opacity: .85; }
 
     .btn-ghost {
+      display: inline-block;
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
       font-weight: 500;
@@ -238,270 +208,276 @@
       background: transparent;
       border: 0.5px solid var(--border2);
       padding: 14px 28px;
-      border-radius: var(--radius);
+      border-radius: var(--r);
       cursor: pointer;
       text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-      display: inline-block;
+      transition: border-color .2s, color .2s;
     }
-
     .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ── SECTIONS ── */
-    section { padding: 100px 60px; }
-
-    .section-label {
-      font-size: 10px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
+    /* ─── SECTIONS ─── */
+    section { padding: 100px 64px; }
 
     .section-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(42px, 6vw, 72px);
+      font-size: clamp(40px, 5.5vw, 68px);
       letter-spacing: 4px;
       line-height: 1;
       color: var(--text);
-      margin-bottom: 40px;
+      margin-bottom: 48px;
     }
 
-    /* ── ABOUT ── */
+    /* ─── ABOUT ─── */
     #about { background: var(--bg-dark); }
 
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
-      align-items: center;
+      align-items: start;
     }
 
     .about-bio {
       font-size: 15px;
-      color: rgba(240,237,230,0.7);
-      line-height: 1.8;
-      margin-bottom: 40px;
+      color: rgba(240,237,230,.68);
+      line-height: 1.85;
+      margin-bottom: 36px;
     }
 
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 16px;
     }
 
     .stat-card {
       background: var(--surface);
       border: 0.5px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
+      border-radius: var(--r);
+      padding: 22px 20px;
     }
 
-    .stat-number {
+    .stat-num {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 48px;
+      font-size: 44px;
       letter-spacing: 2px;
       color: var(--accent);
       line-height: 1;
     }
 
-    .stat-label {
+    .stat-lbl {
       font-size: 10px;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 6px;
+      color: var(--muted);
+      margin-top: 4px;
     }
 
     .about-photo {
       position: relative;
-      border-radius: var(--radius);
+      border-radius: var(--r);
       overflow: hidden;
       background: var(--surface);
-      min-height: 500px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    .img-placeholder {
-      width: 100%;
-      min-height: 420px;
-      background: var(--surface);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      color: #333;
-      font-size: 11px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    .img-placeholder svg { opacity: 0.3; }
-
-    .photo-tag {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(13,13,13,0.85);
-      border: 0.5px solid var(--border2);
-      border-radius: var(--radius);
-      padding: 8px 14px;
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text);
-    }
-
-    /* ── JOURNEY ── */
-    #journey { background: var(--bg); }
-
-    .journey-cards {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 0;
-      align-items: center;
-    }
-
-    .journey-card {
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .journey-card img,
-    .journey-card .img-placeholder {
+    .about-photo img {
       width: 100%;
       height: auto;
       display: block;
     }
 
-    .journey-card .img-placeholder {
-      min-height: 280px;
+    .photo-tag {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: rgba(13,13,13,.88);
+      border: 0.5px solid var(--border2);
+      border-radius: var(--r);
+      padding: 7px 14px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    /* ─── JOURNEY ─── */
+    #journey { background: var(--bg); }
+
+    .journey-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .journey-card {
+      flex: 1;
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .journey-card img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     .journey-caption {
-      padding: 20px 24px;
+      padding: 20px 22px;
     }
 
-    .journey-caption-label {
+    .journey-caption-lbl {
       font-size: 10px;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
-    .journey-caption-text {
+    .journey-caption-txt {
       font-size: 13px;
-      color: var(--text-muted);
+      color: var(--muted);
+      line-height: 1.6;
     }
 
-    .journey-vs {
-      width: 80px;
+    .journey-divider {
+      width: 72px;
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
+      padding-top: 120px;
+      gap: 10px;
     }
 
-    .vs-line {
+    .divider-line {
       width: 0.5px;
-      height: 60px;
+      height: 50px;
       background: var(--border2);
     }
 
-    .vs-text {
+    .divider-vs {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
+      font-size: 16px;
       letter-spacing: 3px;
-      color: var(--text-muted);
+      color: var(--muted);
     }
 
-    /* ── SHOWCASE ── */
+    /* ─── SHOWCASE ─── */
     #showcase { background: var(--bg-dark); }
 
-    .video-main {
-      width: 100%;
-      aspect-ratio: 16/9;
-      border-radius: var(--radius);
-      overflow: hidden;
+    /* main video — portrait, centered */
+    .showcase-main {
+      display: flex;
+      justify-content: center;
       margin-bottom: 24px;
-      border: 0.5px solid var(--border);
     }
 
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .video-sub {
-      aspect-ratio: 16/9;
-      border-radius: var(--radius);
+    .vid-wrap {
+      position: relative;
+      border-radius: var(--r);
       overflow: hidden;
+      background: #1a1a1a;
       border: 0.5px solid var(--border);
+      cursor: pointer;
     }
 
-    /* Video placeholder */
-    .vid-placeholder {
+    .vid-wrap video {
+      display: block;
       width: 100%;
       height: 100%;
-      background: #1c1c1c;
+      object-fit: cover;
+    }
+
+    /* portrait 9:16 */
+    .vid-portrait {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 9 / 16;
+    }
+
+    /* landscape 16:9 */
+    .vid-landscape {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+    }
+
+    .vid-overlay {
+      position: absolute;
+      inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      cursor: default;
+      gap: 12px;
+      background: rgba(0,0,0,0.35);
+      transition: background .2s;
     }
 
-    .vid-play-icon {
-      width: 56px;
-      height: 56px;
+    .vid-wrap:hover .vid-overlay { background: rgba(0,0,0,0.2); }
+
+    .play-ring {
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      border: 1.5px solid rgba(240,237,230,0.2);
+      border: 1.5px solid rgba(240,237,230,.55);
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: border-color .2s, transform .2s;
     }
 
-    .vid-play-icon svg {
-      margin-left: 4px;
+    .vid-wrap:hover .play-ring {
+      border-color: var(--accent);
+      transform: scale(1.05);
     }
 
-    .vid-placeholder-text {
-      font-size: 10px;
+    .play-ring svg { margin-left: 3px; }
+
+    .vid-overlay-txt {
+      font-size: 9px;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: rgba(240,237,230,0.3);
+      color: rgba(240,237,230,.45);
     }
 
-    .video-main .vid-placeholder .vid-play-icon {
-      width: 72px;
-      height: 72px;
-    }
-
-    /* ── SERVICES ── */
-    #services { background: var(--bg); }
-
-    .services-grid {
+    /* sub video grid — 3 portrait columns */
+    .showcase-subs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .showcase-subs .vid-portrait {
+      max-width: 100%;
+    }
+
+    .showcase-subs .play-ring {
+      width: 48px;
+      height: 48px;
+    }
+
+    /* ─── SERVICES ─── */
+    #services { background: var(--bg); }
+
+    .services-flex {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 16px;
     }
 
     .service-card {
+      flex: 0 0 calc(33.333% - 11px);
       background: var(--surface);
       border: 0.5px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px 28px;
+      border-radius: var(--r);
+      padding: 28px 24px;
       text-decoration: none;
       color: var(--text);
-      transition: border-color 0.2s, transform 0.2s;
+      transition: border-color .2s, transform .2s;
       display: block;
     }
 
@@ -512,16 +488,16 @@
 
     .service-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 26px;
+      font-size: 24px;
       letter-spacing: 2px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .service-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-      line-height: 1.6;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.55;
     }
 
     .service-footer {
@@ -529,32 +505,35 @@
       justify-content: space-between;
       align-items: flex-end;
       border-top: 0.5px solid var(--border);
-      padding-top: 20px;
+      padding-top: 16px;
     }
 
     .service-price {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 36px;
+      font-size: 34px;
       letter-spacing: 2px;
       color: var(--accent);
     }
 
-    .service-duration {
+    .service-dur {
       font-size: 10px;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--muted);
     }
 
-    /* ── SOCIALS ── */
+    /* ─── SOCIALS ─── */
     #socials {
       background: var(--bg-dark);
-      padding: 80px 60px;
+      padding: 80px 64px;
+      text-align: center;
     }
+
+    #socials .section-title { margin-bottom: 44px; }
 
     .socials-row {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       justify-content: center;
       flex-wrap: wrap;
     }
@@ -564,19 +543,18 @@
       align-items: center;
       gap: 10px;
       border: 0.5px solid var(--border2);
-      border-radius: var(--radius);
-      padding: 16px 28px;
+      border-radius: var(--r);
+      padding: 15px 26px;
       font-size: 11px;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--text);
       text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
+      transition: border-color .2s, color .2s;
     }
-
     .social-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ── CONTACT ── */
+    /* ─── CONTACT ─── */
     #contact { background: var(--bg); }
 
     .contact-grid {
@@ -585,54 +563,37 @@
       gap: 80px;
     }
 
-    .contact-label {
-      font-size: 10px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
-
-    .contact-title {
+    .contact-head {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 42px;
+      font-size: 38px;
       letter-spacing: 3px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .contact-sub {
       font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 28px;
+      color: var(--muted);
+      margin-bottom: 26px;
     }
 
-    .location-address {
-      font-size: 16px;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
+    .loc-addr { font-size: 15px; color: var(--text); margin-bottom: 4px; }
+    .loc-city { font-size: 14px; color: var(--muted); margin-bottom: 26px; }
 
-    .location-city {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 28px;
-    }
-
-    /* ── QR ── */
+    /* ─── QR ─── */
     #qr {
       background: var(--surface);
       border-top: 0.5px solid var(--border);
       border-bottom: 0.5px solid var(--border);
-      padding: 48px 60px;
+      padding: 48px 64px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 40px;
+      gap: 36px;
     }
 
-    .qr-code {
-      width: 96px;
-      height: 96px;
+    .qr-box {
+      width: 92px;
+      height: 92px;
       background: var(--surface2);
       border: 0.5px solid var(--border2);
       border-radius: 4px;
@@ -642,30 +603,17 @@
       flex-shrink: 0;
     }
 
-    .qr-copy { }
-
-    .qr-label {
-      font-size: 10px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .qr-heading {
+    .qr-head {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
+      font-size: 26px;
       letter-spacing: 3px;
     }
 
-    .qr-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
+    .qr-sub { font-size: 13px; color: var(--muted); }
 
-    /* ── FOOTER ── */
+    /* ─── FOOTER ─── */
     footer {
-      padding: 28px 60px;
+      padding: 26px 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -674,387 +622,381 @@
 
     .footer-brand {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
+      font-size: 17px;
       letter-spacing: 3px;
-      color: var(--text);
     }
 
-    .footer-powered {
+    .footer-right {
       font-size: 11px;
       letter-spacing: 2px;
-      color: var(--text-muted);
+      color: var(--muted);
     }
 
-    .footer-powered a {
-      color: var(--accent);
-      text-decoration: none;
-    }
+    .footer-right a { color: var(--accent); text-decoration: none; }
 
-    /* ── MOBILE ── */
+    /* ─── MOBILE ─── */
     @media (max-width: 768px) {
       nav { padding: 0 20px; }
-      .nav-center { display: none; }
+      .nav-links { display: none; }
 
       section { padding: 70px 24px; }
-      #socials { padding: 60px 24px; }
-      #qr { padding: 40px 24px; flex-direction: column; text-align: center; }
+      #socials, #qr { padding: 56px 24px; }
       footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
 
-      #hero { padding: 0 24px 60px; }
-      .hero-name { font-size: clamp(64px, 18vw, 100px); }
+      #hero { padding: 0 24px 56px; }
 
       .about-grid,
       .contact-grid { grid-template-columns: 1fr; gap: 40px; }
 
-      .journey-cards {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-      .journey-vs { flex-direction: row; width: 100%; justify-content: center; }
-      .vs-line { width: 60px; height: 0.5px; }
+      .journey-wrap { flex-direction: column; }
+      .journey-divider { flex-direction: row; width: 100%; padding-top: 0; }
+      .divider-line { width: 60px; height: 0.5px; }
 
-      .services-grid { grid-template-columns: 1fr; }
-      .video-grid { grid-template-columns: 1fr; }
+      .services-flex { flex-direction: column; }
+      .service-card { flex: 0 0 auto; }
 
-      .socials-row { flex-direction: column; }
+      .showcase-subs { grid-template-columns: 1fr; }
+      .vid-portrait { max-width: 100%; }
+
+      #qr { flex-direction: column; text-align: center; }
+      .socials-row { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-left">
-      <a href="#hero" class="nav-brand">Paril</a>
-      <div class="nav-icons">
-        <a href="https://instagram.com/YOUR_IG" target="_blank" aria-label="Instagram">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-left">
+    <a href="#hero" class="nav-brand">Paril</a>
+    <div class="nav-icons">
+      <a href="https://www.instagram.com/parilthebarber/?hl=en" target="_blank" aria-label="Instagram">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="https://www.tiktok.com/@parilerz?lang=en" target="_blank" aria-label="TikTok">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#showcase">Work</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="btn-nav" target="_blank">Book Now</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <img class="hero-img" src="images/backdrop_web.jpg" alt="Paril cutting hair" />
+  <div class="hero-scrim"></div>
+
+  <div class="hero-content">
+    <p class="label">Barber · Fade Mansion</p>
+    <div class="hero-name">
+      PARIL
+      <div class="hero-side-icons">
+        <a href="https://www.instagram.com/parilthebarber/?hl=en" target="_blank" aria-label="Instagram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
           </svg>
         </a>
-        <a href="https://tiktok.com/@YOUR_TT" target="_blank" aria-label="TikTok">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <a href="https://www.tiktok.com/@parilerz?lang=en" target="_blank" aria-label="TikTok">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/>
           </svg>
         </a>
       </div>
     </div>
-    <div class="nav-center">
-      <a href="#about">About</a>
-      <a href="#showcase">Work</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
+    <p class="hero-tagline">Sharp fades. Clean lines. Every time.<br>Walk in as a regular. Leave looking different.</p>
+    <div class="hero-ctas">
+      <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="btn-primary" target="_blank">Book Now</a>
+      <a href="#about" class="btn-ghost">Learn More</a>
     </div>
-    <a href="YOUR_SQUIRE_LINK" class="btn-nav" target="_blank">Book Now</a>
-  </nav>
+  </div>
+</section>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-bg">
-      <div class="hero-img-placeholder">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-        </svg>
-        <span style="font-size:10px;letter-spacing:3px;color:#333;text-transform:uppercase">Hero photo goes here</span>
-      </div>
-    </div>
-    <div class="hero-content">
-      <p class="hero-label">Barber · Fade Mansion</p>
-      <div class="hero-name">
-        PARIL
-        <div class="hero-socials">
-          <a href="https://instagram.com/YOUR_IG" target="_blank" aria-label="Instagram">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-            </svg>
-          </a>
-          <a href="https://tiktok.com/@YOUR_TT" target="_blank" aria-label="TikTok">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/>
-            </svg>
-          </a>
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <p class="label">The Barber</p>
+      <h2 class="section-title">About Paril</h2>
+      <p class="about-bio">
+        Paril brings precision to every cut. Based at Fade Mansion, he's built a reputation for clean fades, sharp lines, and a chair-side energy that keeps clients coming back. Off the court, he's behind the chair — putting the same focus into every session that he brings to the game.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">5+</div>
+          <div class="stat-lbl">Years Cutting</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4.9</div>
+          <div class="stat-lbl">Rating</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">500+</div>
+          <div class="stat-lbl">Happy Clients</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-lbl">Satisfaction</div>
         </div>
       </div>
-      <p class="hero-tagline">Sharp fades. Clean lines. Every time.<br>Walk in as a regular. Leave looking different.</p>
-      <div class="hero-ctas">
-        <a href="YOUR_SQUIRE_LINK" class="btn-primary" target="_blank">Book Now</a>
-        <a href="#about" class="btn-ghost">Learn More</a>
-      </div>
     </div>
-  </section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="about-grid">
-      <div>
-        <p class="section-label">The Barber</p>
-        <h2 class="section-title">About Paril</h2>
-        <p class="about-bio">
-          Paril brings precision to every cut. Based at Fade Mansion, he's built a reputation for clean fades, sharp lines, and a chair-side energy that keeps clients coming back. Off the court, he's behind the chair — putting the same focus into every session that he brings to the game.
-        </p>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-number">5+</div>
-            <div class="stat-label">Years Cutting</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">4.9</div>
-            <div class="stat-label">Rating</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">500+</div>
-            <div class="stat-label">Happy Clients</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">100%</div>
-            <div class="stat-label">Satisfaction</div>
-          </div>
-        </div>
-      </div>
-      <div class="about-photo">
-        <div class="img-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <span>Lifestyle photo</span>
-        </div>
-        <div class="photo-tag">Off the court, on the chair</div>
+    <div class="about-photo">
+      <img src="images/basketball_web.jpg" alt="Paril off the court" />
+      <div class="photo-tag">Off the court, on the chair</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── JOURNEY ── -->
+<section id="journey">
+  <p class="label">The Come Up</p>
+  <h2 class="section-title">Where I Started.<br>Where I Cut Now.</h2>
+
+  <div class="journey-wrap">
+    <div class="journey-card">
+      <img src="images/basement_web.jpg" alt="Where it started" />
+      <div class="journey-caption">
+        <div class="journey-caption-lbl">The Beginning</div>
+        <div class="journey-caption-txt">Started in the basement — just clippers, a chair, and a vision.</div>
       </div>
     </div>
-  </section>
 
-  <!-- JOURNEY -->
-  <section id="journey">
-    <p class="section-label">The Come Up</p>
-    <h2 class="section-title">Where I Started.<br>Where I Cut Now.</h2>
-    <div class="journey-cards">
-      <div class="journey-card">
-        <div class="img-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <span>Early days photo</span>
-        </div>
-        <div class="journey-caption">
-          <div class="journey-caption-label">The Beginning</div>
-          <div class="journey-caption-text">Started in the basement — just clippers, a chair, and a vision.</div>
-        </div>
-      </div>
-      <div class="journey-vs">
-        <div class="vs-line"></div>
-        <div class="vs-text">VS</div>
-        <div class="vs-line"></div>
-      </div>
-      <div class="journey-card">
-        <div class="img-placeholder">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <span>Fade Mansion photo</span>
-        </div>
-        <div class="journey-caption">
-          <div class="journey-caption-label">Now</div>
-          <div class="journey-caption-text">Holding it down at Fade Mansion. The craft elevated, the energy the same.</div>
-        </div>
+    <div class="journey-divider">
+      <div class="divider-line"></div>
+      <div class="divider-vs">VS</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="journey-card">
+      <img src="images/now_web.jpg" alt="Fade Mansion now" />
+      <div class="journey-caption">
+        <div class="journey-caption-lbl">Now</div>
+        <div class="journey-caption-txt">Holding it down at Fade Mansion. The craft elevated, the energy the same.</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- SHOWCASE -->
-  <section id="showcase">
-    <p class="section-label">The Work</p>
-    <h2 class="section-title">See It for Yourself</h2>
-    <div class="video-main">
-      <div class="vid-placeholder">
-        <div class="vid-play-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(240,237,230,0.4)">
+<!-- ── SHOWCASE ── -->
+<section id="showcase">
+  <p class="label">The Work</p>
+  <h2 class="section-title">See It for Yourself</h2>
+
+  <!-- Main video (portrait 9:16) -->
+  <div class="showcase-main">
+    <div class="vid-wrap vid-portrait" onclick="playVid(this)">
+      <video src="images/main.mp4" playsinline preload="none"></video>
+      <div class="vid-overlay">
+        <div class="play-ring">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
             <polygon points="5 3 19 12 5 21 5 3"/>
           </svg>
         </div>
-        <span class="vid-placeholder-text">Video coming soon</span>
+        <span class="vid-overlay-txt">Play</span>
       </div>
-    </div>
-    <div class="video-grid">
-      <div class="video-sub">
-        <div class="vid-placeholder">
-          <div class="vid-play-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="rgba(240,237,230,0.4)">
-              <polygon points="5 3 19 12 5 21 5 3"/>
-            </svg>
-          </div>
-          <span class="vid-placeholder-text">Video coming soon</span>
-        </div>
-      </div>
-      <div class="video-sub">
-        <div class="vid-placeholder">
-          <div class="vid-play-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="rgba(240,237,230,0.4)">
-              <polygon points="5 3 19 12 5 21 5 3"/>
-            </svg>
-          </div>
-          <span class="vid-placeholder-text">Video coming soon</span>
-        </div>
-      </div>
-      <div class="video-sub">
-        <div class="vid-placeholder">
-          <div class="vid-play-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="rgba(240,237,230,0.4)">
-              <polygon points="5 3 19 12 5 21 5 3"/>
-            </svg>
-          </div>
-          <span class="vid-placeholder-text">Video coming soon</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section id="services">
-    <p class="section-label">Pricing</p>
-    <h2 class="section-title">Services</h2>
-    <div class="services-grid">
-      <a href="YOUR_SQUIRE_LINK" class="service-card" target="_blank">
-        <div class="service-name">Haircut</div>
-        <p class="service-desc">Classic cut, styled to your preference. Includes lineup and finish.</p>
-        <div class="service-footer">
-          <div class="service-price">$35</div>
-          <div class="service-duration">45 min</div>
-        </div>
-      </a>
-      <a href="YOUR_SQUIRE_LINK" class="service-card" target="_blank">
-        <div class="service-name">Haircut + Beard</div>
-        <p class="service-desc">Full cut with a detailed beard shape-up and lineup.</p>
-        <div class="service-footer">
-          <div class="service-price">$50</div>
-          <div class="service-duration">60 min</div>
-        </div>
-      </a>
-      <a href="YOUR_SQUIRE_LINK" class="service-card" target="_blank">
-        <div class="service-name">Lineup Only</div>
-        <p class="service-desc">Clean edge-up to keep you sharp between cuts.</p>
-        <div class="service-footer">
-          <div class="service-price">$20</div>
-          <div class="service-duration">20 min</div>
-        </div>
-      </a>
-      <a href="YOUR_SQUIRE_LINK" class="service-card" target="_blank">
-        <div class="service-name">Kids Cut</div>
-        <p class="service-desc">Haircut for kids 12 and under. Patient, clean, precise.</p>
-        <div class="service-footer">
-          <div class="service-price">$25</div>
-          <div class="service-duration">30 min</div>
-        </div>
-      </a>
-      <a href="YOUR_SQUIRE_LINK" class="service-card" target="_blank">
-        <div class="service-name">Fade Special</div>
-        <p class="service-desc">Signature skin or low fade with detailed blending and styling.</p>
-        <div class="service-footer">
-          <div class="service-price">$40</div>
-          <div class="service-duration">50 min</div>
-        </div>
-      </a>
-      <a href="YOUR_SQUIRE_LINK" class="service-card" target="_blank">
-        <div class="service-name">Full Groom</div>
-        <p class="service-desc">The works — fade, beard, lineup, and hot towel finish.</p>
-        <div class="service-footer">
-          <div class="service-price">$65</div>
-          <div class="service-duration">75 min</div>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- SOCIALS -->
-  <section id="socials" style="text-align:center;">
-    <p class="section-label" style="justify-content:center;display:flex;">Connect</p>
-    <h2 class="section-title" style="margin-bottom:48px;">Find Me Online</h2>
-    <div class="socials-row">
-      <a href="https://instagram.com/YOUR_IG" class="social-btn" target="_blank">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-        </svg>
-        Instagram
-      </a>
-      <a href="https://tiktok.com/@YOUR_TT" class="social-btn" target="_blank">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/>
-        </svg>
-        TikTok
-      </a>
-      <a href="YOUR_SQUIRE_LINK" class="social-btn" target="_blank">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
-        Book on Squire
-      </a>
-    </div>
-  </section>
-
-  <!-- CONTACT + LOCATION -->
-  <section id="contact">
-    <div class="contact-grid">
-      <div>
-        <p class="contact-label">Get in Touch</p>
-        <h3 class="contact-title">Contact</h3>
-        <p class="contact-sub">Questions? Reach out directly.</p>
-        <a href="mailto:YOUR_EMAIL@gmail.com" class="btn-ghost">Email Paril</a>
-      </div>
-      <div>
-        <p class="contact-label">Where to Find Us</p>
-        <h3 class="contact-title">Location</h3>
-        <p class="location-address">YOUR ADDRESS HERE</p>
-        <p class="location-city">City, State ZIP</p>
-        <a href="#" class="btn-ghost" id="directions-btn">Get Directions</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- QR -->
-  <div id="qr">
-    <div class="qr-code">
-      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-        <!-- QR placeholder pattern -->
-        <rect x="4" y="4" width="24" height="24" rx="2" fill="none" stroke="#444" stroke-width="2"/>
-        <rect x="10" y="10" width="12" height="12" fill="#444"/>
-        <rect x="36" y="4" width="24" height="24" rx="2" fill="none" stroke="#444" stroke-width="2"/>
-        <rect x="42" y="10" width="12" height="12" fill="#444"/>
-        <rect x="4" y="36" width="24" height="24" rx="2" fill="none" stroke="#444" stroke-width="2"/>
-        <rect x="10" y="42" width="12" height="12" fill="#444"/>
-        <rect x="36" y="36" width="6" height="6" fill="#444"/>
-        <rect x="46" y="36" width="6" height="6" fill="#444"/>
-        <rect x="56" y="36" width="4" height="4" fill="#444"/>
-        <rect x="36" y="46" width="4" height="4" fill="#444"/>
-        <rect x="44" y="44" width="8" height="8" fill="#444"/>
-        <rect x="56" y="44" width="4" height="4" fill="#444"/>
-        <rect x="36" y="56" width="6" height="4" fill="#444"/>
-        <rect x="46" y="54" width="4" height="6" fill="#444"/>
-        <rect x="54" y="52" width="6" height="4" fill="#444"/>
-      </svg>
-    </div>
-    <div class="qr-copy">
-      <div class="qr-label">Scan to Book</div>
-      <div class="qr-heading">Book Your Appointment</div>
-      <div class="qr-sub">Point your camera at the code to go straight to booking.</div>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-brand">Paril · Fade Mansion</div>
-    <div class="footer-powered">Powered by <a href="#">[Your Brand]</a></div>
-  </footer>
+  <!-- Sub videos (3-col, all portrait containers) -->
+  <div class="showcase-subs">
+    <div class="vid-wrap vid-portrait" onclick="playVid(this)">
+      <video src="images/second.mp4" playsinline preload="none"></video>
+      <div class="vid-overlay">
+        <div class="play-ring">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </div>
+        <span class="vid-overlay-txt">Play</span>
+      </div>
+    </div>
 
-  <script>
-    // Directions — iOS vs Android
-    document.getElementById('directions-btn').addEventListener('click', function(e) {
-      e.preventDefault();
-      const address = encodeURIComponent('YOUR ADDRESS HERE, City, State ZIP');
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      const url = isIOS
-        ? 'https://maps.apple.com/?q=' + address
-        : 'https://maps.google.com/?q=' + address;
-      window.open(url, '_blank');
-    });
-  </script>
+    <div class="vid-wrap vid-portrait" onclick="playVid(this)">
+      <video src="images/third.mp4" playsinline preload="none"></video>
+      <div class="vid-overlay">
+        <div class="play-ring">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </div>
+        <span class="vid-overlay-txt">Play</span>
+      </div>
+    </div>
+
+    <div class="vid-wrap vid-portrait" onclick="playVid(this)">
+      <video src="images/fourth.mp4" playsinline preload="none"></video>
+      <div class="vid-overlay">
+        <div class="play-ring">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </div>
+        <span class="vid-overlay-txt">Play</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <p class="label">Pricing</p>
+  <h2 class="section-title">Services</h2>
+
+  <div class="services-flex">
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+      <div class="service-name">Fade / Beard / Scissorcut</div>
+      <p class="service-desc">Full fade with beard detail and scissor finish. The complete package.</p>
+      <div class="service-footer">
+        <div class="service-price">$60</div>
+        <div class="service-dur">1 hr</div>
+      </div>
+    </a>
+
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+      <div class="service-name">Fade &amp; Scissorcut (No Beard)</div>
+      <p class="service-desc">Clean fade and scissor cut — styled to your look, no beard work.</p>
+      <div class="service-footer">
+        <div class="service-price">$50</div>
+        <div class="service-dur">1 hr</div>
+      </div>
+    </a>
+
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+      <div class="service-name">Shape Up</div>
+      <p class="service-desc">Sharp edge-up to keep your line fresh and defined between cuts.</p>
+      <div class="service-footer">
+        <div class="service-price">$30</div>
+        <div class="service-dur">30 min</div>
+      </div>
+    </a>
+
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+      <div class="service-name">Shapeup With Beard</div>
+      <p class="service-desc">Edge-up plus beard lineup — clean from top to bottom.</p>
+      <div class="service-footer">
+        <div class="service-price">$35</div>
+        <div class="service-dur">30 min</div>
+      </div>
+    </a>
+
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="service-card" target="_blank">
+      <div class="service-name">Beard Only</div>
+      <p class="service-desc">Detail and shape your beard to look intentional and clean.</p>
+      <div class="service-footer">
+        <div class="service-price">$25</div>
+        <div class="service-dur">30 min</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ── SOCIALS ── -->
+<section id="socials">
+  <p class="label" style="display:flex;justify-content:center">Connect</p>
+  <h2 class="section-title">Find Me Online</h2>
+  <div class="socials-row">
+    <a href="https://www.instagram.com/parilthebarber/?hl=en" class="social-btn" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+      Instagram
+    </a>
+    <a href="https://www.tiktok.com/@parilerz?lang=en" class="social-btn" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/>
+      </svg>
+      TikTok
+    </a>
+    <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="social-btn" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Book on Squire
+    </a>
+  </div>
+</section>
+
+<!-- ── CONTACT + LOCATION ── -->
+<section id="contact">
+  <div class="contact-grid">
+    <div>
+      <p class="label">Get in Touch</p>
+      <h3 class="contact-head">Contact</h3>
+      <p class="contact-sub">Questions? Reach out directly.</p>
+      <a href="mailto:YOUR_EMAIL@gmail.com" class="btn-ghost">Email Paril</a>
+    </div>
+    <div>
+      <p class="label">Where to Find Us</p>
+      <h3 class="contact-head">Location</h3>
+      <p class="loc-addr">YOUR ADDRESS HERE</p>
+      <p class="loc-city">City, State ZIP</p>
+      <a href="#" class="btn-ghost" id="directions-btn">Get Directions</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── QR ── -->
+<div id="qr">
+  <div class="qr-box">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <rect x="4"  y="4"  width="24" height="24" rx="2" fill="none" stroke="#444" stroke-width="2"/>
+      <rect x="10" y="10" width="12" height="12" fill="#444"/>
+      <rect x="36" y="4"  width="24" height="24" rx="2" fill="none" stroke="#444" stroke-width="2"/>
+      <rect x="42" y="10" width="12" height="12" fill="#444"/>
+      <rect x="4"  y="36" width="24" height="24" rx="2" fill="none" stroke="#444" stroke-width="2"/>
+      <rect x="10" y="42" width="12" height="12" fill="#444"/>
+      <rect x="36" y="36" width="6"  height="6"  fill="#444"/>
+      <rect x="46" y="36" width="6"  height="6"  fill="#444"/>
+      <rect x="56" y="36" width="4"  height="4"  fill="#444"/>
+      <rect x="36" y="46" width="4"  height="4"  fill="#444"/>
+      <rect x="44" y="44" width="8"  height="8"  fill="#444"/>
+      <rect x="56" y="44" width="4"  height="4"  fill="#444"/>
+      <rect x="36" y="56" width="6"  height="4"  fill="#444"/>
+      <rect x="46" y="54" width="4"  height="6"  fill="#444"/>
+      <rect x="54" y="52" width="6"  height="4"  fill="#444"/>
+    </svg>
+  </div>
+  <div>
+    <p class="label">Scan to Book</p>
+    <div class="qr-head">Book Your Appointment</div>
+    <div class="qr-sub">Point your camera at the code to go straight to booking.</div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-brand">Paril · Fade Mansion</div>
+  <div class="footer-right">Powered by <a href="#">[Your Brand]</a></div>
+</footer>
+
+<script>
+  function playVid(wrapper) {
+    const vid = wrapper.querySelector('video');
+    const overlay = wrapper.querySelector('.vid-overlay');
+    overlay.style.display = 'none';
+    vid.controls = true;
+    vid.play();
+  }
+
+  // Directions — iOS vs Android
+  document.getElementById('directions-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    const addr = encodeURIComponent('YOUR ADDRESS HERE, City, State ZIP');
+    const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    window.open(ios ? 'https://maps.apple.com/?q=' + addr : 'https://maps.google.com/?q=' + addr, '_blank');
+  });
+</script>
 </body>
 </html>
