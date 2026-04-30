@@ -435,7 +435,6 @@
       background: rgba(0,0,0,0.4);
       opacity: 1;
       transition: opacity .3s;
-      pointer-events: none;
     }
 
     .vid-wrap:hover .vid-overlay { opacity: 0; }
@@ -743,7 +742,7 @@
     <p class="hero-tagline">Sharp fades. Clean lines. Every time.<br>Walk in as a regular. Leave looking different.</p>
     <div class="hero-ctas">
       <a href="https://shops.getsquire.com/book/fade-mansion-south-plainfield/professional/paril?ig_ix=true&owner=barber" class="btn-primary" target="_blank">Book Now</a>
-      <a href="#about" class="btn-ghost">Learn More</a>
+      <a href="#" class="btn-ghost" id="hero-directions">Get Directions</a>
     </div>
   </div>
 </section>
@@ -1007,7 +1006,7 @@
 </footer>
 
 <script>
-  // Hover-to-play videos
+  // Hover-to-play videos — click for sound + controls
   document.querySelectorAll('.vid-wrap').forEach(wrapper => {
     const vid = wrapper.querySelector('video');
     const overlay = wrapper.querySelector('.vid-overlay');
@@ -1018,12 +1017,22 @@
     });
 
     wrapper.addEventListener('mouseleave', () => {
-      vid.pause();
-      vid.currentTime = 0;
+      if (vid.muted) { // only reset if still in muted/preview mode
+        vid.pause();
+        vid.currentTime = 0;
+      }
     });
 
-    // Click unmutes and hands off controls
+    overlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      vid.muted = false;
+      vid.controls = true;
+      overlay.style.display = 'none';
+      vid.play();
+    });
+
     wrapper.addEventListener('click', () => {
+      if (overlay.style.display === 'none') return; // already playing with controls
       vid.muted = false;
       vid.controls = true;
       overlay.style.display = 'none';
@@ -1031,16 +1040,20 @@
     });
   });
 
-  // Directions — iOS vs Android — wired to both nav + contact buttons
+  // Directions — pre-fills destination so user just taps Start
   function openDirections(e) {
     e.preventDefault();
-    const addr = encodeURIComponent('122 Durham Ave, South Plainfield, NJ 07080');
+    const dest = encodeURIComponent('122 Durham Ave, South Plainfield, NJ 07080');
     const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    window.open(ios ? 'https://maps.apple.com/?q=' + addr : 'https://maps.google.com/?q=' + addr, '_blank');
+    const url = ios
+      ? 'maps.apple.com/?daddr=' + dest + '&dirflg=d'
+      : 'https://www.google.com/maps/dir/?api=1&destination=' + dest;
+    window.open(url, '_blank');
   }
 
-  document.getElementById('directions-btn').addEventListener('click', openDirections);
+  document.getElementById('hero-directions').addEventListener('click', openDirections);
   document.getElementById('nav-directions').addEventListener('click', openDirections);
+  document.getElementById('directions-btn').addEventListener('click', openDirections);
 </script>
 </body>
 </html>
