@@ -24,7 +24,7 @@
       --r:        6px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
       background: var(--bg);
@@ -33,6 +33,7 @@
       font-weight: 300;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     /* ─── SCROLL ANIMATIONS ─── */
@@ -715,30 +716,75 @@
 
     /* ─── MOBILE ─── */
     @media (max-width: 768px) {
-      nav { padding: 0 20px; }
+      /* Nav */
+      nav { padding: 0 20px; height: 56px; }
       .nav-links { display: none; }
+      .nav-icons { display: none; }
+      #nav-directions { display: none; }
+      .nav-brand { font-size: 20px; }
+      .btn-nav { padding: 9px 16px; font-size: 10px; letter-spacing: 2px; }
 
-      section { padding: 70px 24px; }
-      #socials { padding: 56px 24px; }
-      #qr { padding: 40px 24px; flex-direction: column; text-align: center; }
+      /* Sections */
+      section { padding: 64px 20px; }
+      #socials { padding: 56px 20px; }
+      #qr { padding: 40px 20px; flex-direction: column; text-align: center; gap: 24px; }
       footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
 
-      #hero { padding: 0 24px 56px; }
+      /* Hero */
+      #hero { padding: 0 20px 52px; }
+      .hero-name {
+        font-size: clamp(52px, 15vw, 80px);
+        gap: 14px;
+        letter-spacing: 4px;
+      }
+      .hero-side-icons { gap: 12px; }
+      .hero-side-icons a svg { width: 22px; height: 22px; }
+      .hero-tagline { font-size: 14px; margin: 14px 0 24px; max-width: 100%; }
+      .hero-ctas { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .hero-ctas .btn-primary,
+      .hero-ctas .btn-ghost { width: 100%; text-align: center; padding: 14px 20px; }
 
-      .about-grid,
-      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      /* About */
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .about-photo { height: 280px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
 
-      .journey-wrap { flex-direction: column; }
-      .journey-divider { flex-direction: row; width: 100%; }
+      /* Journey */
+      .journey-wrap { flex-direction: column; gap: 0; }
+      .journey-divider {
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        padding: 20px 0;
+        gap: 14px;
+      }
       .divider-line { width: 60px; height: 0.5px; }
 
-      .services-flex { flex-direction: column; }
-      .service-card { flex: 0 0 auto; }
+      /* Services */
+      .services-flex { flex-direction: column; gap: 12px; }
+      .service-card { flex: 0 0 auto; width: 100%; }
 
-      .showcase-subs { grid-template-columns: 1fr; }
+      /* Showcase */
+      .showcase-subs { grid-template-columns: 1fr; gap: 12px; }
       .vid-portrait { max-width: 100%; }
+      .showcase-main .vid-portrait { max-width: 100%; }
 
+      /* Socials */
       .socials-row { flex-direction: column; align-items: stretch; }
+      .social-btn { justify-content: center; padding: 14px 20px; }
+
+      /* Contact */
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .btn-ghost { width: 100%; text-align: center; }
+
+      /* Section titles */
+      .section-title { font-size: clamp(34px, 9vw, 52px); margin-bottom: 32px; }
+    }
+
+    /* Very small phones */
+    @media (max-width: 390px) {
+      .hero-name { font-size: 13vw; }
+      .hero-side-icons { display: none; }
     }
   </style>
 </head>
@@ -1069,38 +1115,40 @@
     lastY = y;
   }, { passive: true });
 
-  /* ── VIDEO HOVER-TO-PLAY ── */
+  /* ── VIDEO HOVER-TO-PLAY (desktop) + TAP-TO-PLAY (mobile) ── */
+  const isTouch = window.matchMedia('(hover: none)').matches;
+
   document.querySelectorAll('.vid-wrap').forEach(wrapper => {
     const vid = wrapper.querySelector('video');
     const overlay = wrapper.querySelector('.vid-overlay');
 
-    wrapper.addEventListener('mouseenter', () => {
-      vid.muted = true;
-      vid.play().catch(() => {});
-    });
-
-    wrapper.addEventListener('mouseleave', () => {
-      if (vid.muted) {
-        vid.pause();
-        vid.currentTime = 0;
-      }
-    });
-
-    overlay.addEventListener('click', (e) => {
-      e.stopPropagation();
+    function playWithSound() {
       vid.muted = false;
       vid.controls = true;
       overlay.style.display = 'none';
       vid.play();
-    });
+    }
 
-    wrapper.addEventListener('click', () => {
-      if (overlay.style.display === 'none') return;
-      vid.muted = false;
-      vid.controls = true;
-      overlay.style.display = 'none';
-      vid.play();
-    });
+    if (isTouch) {
+      // Mobile: single tap plays immediately with sound
+      wrapper.addEventListener('click', playWithSound);
+    } else {
+      // Desktop: hover to preview muted, click for sound
+      wrapper.addEventListener('mouseenter', () => {
+        vid.muted = true;
+        vid.play().catch(() => {});
+      });
+      wrapper.addEventListener('mouseleave', () => {
+        if (vid.muted) {
+          vid.pause();
+          vid.currentTime = 0;
+        }
+      });
+      overlay.addEventListener('click', (e) => { e.stopPropagation(); playWithSound(); });
+      wrapper.addEventListener('click', () => {
+        if (overlay.style.display !== 'none') playWithSound();
+      });
+    }
   });
 
   /* ── DIRECTIONS ── */
