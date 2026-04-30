@@ -446,17 +446,44 @@
     /* ─── SHOWCASE ─── */
     #showcase { background: var(--bg-dark); }
 
-    .showcase-main {
+    /* Desktop editorial split */
+    .showcase-split {
       display: flex;
-      justify-content: center;
-      margin-bottom: 24px;
+      gap: 6px;
+      align-items: stretch;
+      min-height: 680px;
+    }
+
+    .showcase-left {
+      flex: 1 1 50%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .showcase-right {
+      flex: 1 1 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Main featured video — full left column height */
+    .showcase-left .vid-wrap {
+      flex: 1;
+      border-left: 2px solid var(--accent);
+      border-radius: var(--r);
+    }
+
+    /* Right column — 3 stacked equal thirds */
+    .showcase-right .vid-wrap {
+      flex: 1;
+      border-radius: var(--r);
     }
 
     .vid-wrap {
       position: relative;
-      border-radius: var(--r);
       overflow: hidden;
-      background: var(--bg-dark);
+      background: #000;
       border: 0.5px solid var(--border);
       cursor: pointer;
     }
@@ -468,10 +495,19 @@
       object-fit: cover;
     }
 
-    .vid-portrait {
-      width: 100%;
-      max-width: 400px;
-      aspect-ratio: 9 / 16;
+    /* Cut label bottom-left on right column videos */
+    .vid-cut-label {
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      z-index: 2;
+      pointer-events: none;
     }
 
     .vid-overlay {
@@ -484,7 +520,7 @@
       gap: 14px;
       background: rgba(0,0,0,0.45);
       opacity: 1;
-      transition: opacity .3s;
+      transition: opacity .35s ease;
     }
 
     .vid-wrap:hover .vid-overlay { opacity: 0; }
@@ -501,12 +537,59 @@
     }
     .play-ring svg { margin-left: 3px; }
 
+    .showcase-right .play-ring { width: 44px; height: 44px; }
+
     .vid-overlay-txt {
       font-size: 9px;
       letter-spacing: 4px;
       text-transform: uppercase;
       color: rgba(240,237,230,.5);
       font-family: 'DM Sans', sans-serif;
+    }
+
+    /* ─── LIGHTBOX ─── */
+    #vid-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      animation: lbFadeIn .25s ease;
+    }
+    #vid-lightbox.open { display: flex; }
+    @keyframes lbFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    #vid-lightbox video {
+      max-width: 90vw;
+      max-height: 88vh;
+      border-radius: var(--r);
+      outline: none;
+    }
+
+    #lb-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 32px;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.6;
+      transition: opacity .2s;
+    }
+    #lb-close:hover { opacity: 1; }
+
+    /* Mobile: keep old stacked layout — hide split, show mobile */
+    .showcase-mobile { display: none; }
+
+    .vid-portrait {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 9 / 16;
     }
 
     .showcase-subs {
@@ -764,7 +847,9 @@
       .services-flex { flex-direction: column; gap: 12px; }
       .service-card { flex: 0 0 auto; width: 100%; }
 
-      /* Showcase */
+      /* Showcase — hide desktop split, show mobile stack */
+      .showcase-split { display: none; }
+      .showcase-mobile { display: block; }
       .showcase-subs { grid-template-columns: 1fr; gap: 12px; }
       .vid-portrait { max-width: 100%; }
       .showcase-main .vid-portrait { max-width: 100%; }
@@ -922,58 +1007,124 @@
   <p class="label fade-up">The Work</p>
   <h2 class="section-title fade-up" style="transition-delay:80ms">See It for Yourself</h2>
 
-  <div class="showcase-main fade-up" style="transition-delay:160ms">
-    <div class="vid-wrap vid-portrait">
-      <video src="images/main.mp4" playsinline preload="none"></video>
-      <div class="vid-overlay">
-        <div class="play-ring">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
+  <!-- DESKTOP: editorial left/right split -->
+  <div class="showcase-split fade-up" style="transition-delay:160ms">
+    <!-- LEFT: main featured video -->
+    <div class="showcase-left">
+      <div class="vid-wrap" data-src="images/main.mp4">
+        <video src="images/main.mp4" playsinline preload="none" loop></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <span class="vid-overlay-txt">Hover to watch</span>
         </div>
-        <span class="vid-overlay-txt">Hover to watch</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: 3 stacked cuts -->
+    <div class="showcase-right">
+      <div class="vid-wrap" data-src="images/second.mp4">
+        <video src="images/second.mp4" playsinline preload="none" loop></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <span class="vid-overlay-txt">Hover to watch</span>
+        </div>
+        <span class="vid-cut-label">Cut 01</span>
+      </div>
+
+      <div class="vid-wrap" data-src="images/third.mp4">
+        <video src="images/third.mp4" playsinline preload="none" loop></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <span class="vid-overlay-txt">Hover to watch</span>
+        </div>
+        <span class="vid-cut-label">Cut 02</span>
+      </div>
+
+      <div class="vid-wrap" data-src="images/fourth.mp4">
+        <video src="images/fourth.mp4" playsinline preload="none" loop></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <span class="vid-overlay-txt">Hover to watch</span>
+        </div>
+        <span class="vid-cut-label">Cut 03</span>
       </div>
     </div>
   </div>
 
-  <div class="showcase-subs">
-    <div class="vid-wrap vid-portrait fade-up" style="transition-delay:200ms">
-      <video src="images/second.mp4" playsinline preload="none"></video>
-      <div class="vid-overlay">
-        <div class="play-ring">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
+  <!-- MOBILE: original stacked layout -->
+  <div class="showcase-mobile">
+    <div style="display:flex;justify-content:center;margin-bottom:24px">
+      <div class="vid-wrap vid-portrait" data-src="images/main.mp4">
+        <video src="images/main.mp4" playsinline preload="none" loop></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <span class="vid-overlay-txt">Tap to watch</span>
         </div>
-        <span class="vid-overlay-txt">Hover to watch</span>
       </div>
     </div>
-
-    <div class="vid-wrap vid-portrait fade-up" style="transition-delay:300ms">
-      <video src="images/third.mp4" playsinline preload="none"></video>
-      <div class="vid-overlay">
-        <div class="play-ring">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
+    <div class="showcase-subs">
+      <div class="vid-wrap vid-portrait" data-src="images/second.mp4">
+        <video src="images/second.mp4" playsinline preload="none" loop></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <span class="vid-overlay-txt">Tap to watch</span>
         </div>
-        <span class="vid-overlay-txt">Hover to watch</span>
       </div>
-    </div>
-
-    <div class="vid-wrap vid-portrait fade-up" style="transition-delay:400ms">
-      <video src="images/fourth.mp4" playsinline preload="none"></video>
-      <div class="vid-overlay">
-        <div class="play-ring">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
+      <div class="vid-wrap vid-portrait" data-src="images/third.mp4">
+        <video src="images/third.mp4" playsinline preload="none" loop></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <span class="vid-overlay-txt">Tap to watch</span>
         </div>
-        <span class="vid-overlay-txt">Hover to watch</span>
+      </div>
+      <div class="vid-wrap vid-portrait" data-src="images/fourth.mp4">
+        <video src="images/fourth.mp4" playsinline preload="none" loop></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)">
+              <polygon points="5 3 19 12 5 21 5 3"/>
+            </svg>
+          </div>
+          <span class="vid-overlay-txt">Tap to watch</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ── LIGHTBOX ── -->
+<div id="vid-lightbox">
+  <button id="lb-close" aria-label="Close">&times;</button>
+  <video id="lb-video" controls playsinline></video>
+</div>
 
 <!-- ── SERVICES ── -->
 <section id="services">
@@ -1115,28 +1266,49 @@
     lastY = y;
   }, { passive: true });
 
-  /* ── VIDEO HOVER-TO-PLAY (desktop) + TAP-TO-PLAY (mobile) ── */
+  /* ── VIDEO HOVER-TO-PLAY (desktop) + LIGHTBOX + TAP-TO-PLAY (mobile) ── */
   const isTouch = window.matchMedia('(hover: none)').matches;
-  if (isTouch) {
-    document.querySelectorAll('.vid-overlay-txt').forEach(el => el.textContent = 'Tap to watch');
+
+  // Lightbox
+  const lightbox  = document.getElementById('vid-lightbox');
+  const lbVideo   = document.getElementById('lb-video');
+  const lbClose   = document.getElementById('lb-close');
+
+  function openLightbox(src) {
+    lbVideo.src = src;
+    lbVideo.muted = false;
+    lbVideo.currentTime = 0;
+    lightbox.classList.add('open');
+    lbVideo.play().catch(() => {});
   }
 
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lbVideo.pause();
+    lbVideo.src = '';
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Wire up all vid-wraps
   document.querySelectorAll('.vid-wrap').forEach(wrapper => {
-    const vid = wrapper.querySelector('video');
+    const vid     = wrapper.querySelector('video');
     const overlay = wrapper.querySelector('.vid-overlay');
+    const src     = wrapper.dataset.src || vid.src;
+    const inSplit = wrapper.closest('.showcase-split');
 
-    function playMuted() {
-      vid.muted = true;
-      vid.controls = true;
-      overlay.style.display = 'none';
-      vid.play();
-    }
-
-    if (isTouch) {
-      // Mobile: tap plays muted with controls
-      wrapper.addEventListener('click', playMuted);
+    if (isTouch || !inSplit) {
+      // Mobile (or mobile fallback stack): tap plays muted inline with controls
+      wrapper.addEventListener('click', () => {
+        vid.muted = true;
+        vid.controls = true;
+        overlay.style.display = 'none';
+        vid.play().catch(() => {});
+      });
     } else {
-      // Desktop: hover previews, click shows controls
+      // Desktop split layout: hover previews silently, click opens lightbox
       wrapper.addEventListener('mouseenter', () => {
         vid.muted = true;
         vid.play().catch(() => {});
@@ -1145,9 +1317,11 @@
         vid.pause();
         vid.currentTime = 0;
       });
-      overlay.addEventListener('click', (e) => { e.stopPropagation(); playMuted(); });
       wrapper.addEventListener('click', () => {
-        if (overlay.style.display !== 'none') playMuted();
+        // Pause the preview before opening lightbox
+        vid.pause();
+        vid.currentTime = 0;
+        openLightbox(src);
       });
     }
   });
