@@ -41,6 +41,6 @@ module.exports = async function handler(req, res) {
     });
   } catch (err) {
     console.error('join-waitlist error:', err);
-    return res.status(500).json({ error: 'Something went wrong. Try again.' });
+    return res.status(500).json({ error: err.message });
   }
 };

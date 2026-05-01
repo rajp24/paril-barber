@@ -1,3 +1,14 @@
+## v0.1.8 · May 1, 2026
+
+**Debug waitlist API — expose real error messages**
+Updated all API routes to return the actual error message from the server instead of a generic fallback. This makes it possible to see exactly what's failing (e.g. missing table, bad connection string) when something goes wrong.
+
+You can now see the real error in the browser response when an API call fails, making it much easier to diagnose issues.
+
+📄 api/join-waitlist.js, api/waitlist-count.js
+
+---
+
 ## v0.1.6 · May 1, 2026
 
 **Discreet admin link in footer**

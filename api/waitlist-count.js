@@ -12,6 +12,6 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ count: parseInt(rows[0].count, 10) });
   } catch (err) {
     console.error('waitlist-count error:', err);
-    return res.status(200).json({ count: 0 });
+    return res.status(500).json({ count: 0, error: err.message });
   }
 };
