@@ -1,3 +1,14 @@
+## v0.1.3 · April 30, 2026
+
+**Further increase to desktop text sizes**
+All desktop font sizes were bumped up again after the first pass wasn't large enough. Body copy, stat numbers, service names, section titles, and supporting text are all significantly bigger now.
+
+You can now read every section of the site on desktop without the text feeling cramped or small.
+
+📄 index.html
+
+---
+
 ## v0.1.2 · April 30, 2026
 
 **Desktop text size increase + Trello log descriptions**
