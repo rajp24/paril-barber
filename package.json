@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@vercel/postgres": "^0.10.0",
+    "twilio": "^6.0.0"
+  }
+}

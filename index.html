@@ -1325,11 +1325,12 @@
   <p class="label fade-up">Stay Ready</p>
   <h2 class="section-title fade-up" style="transition-delay:80ms">Join the Waitlist</h2>
   <p class="waitlist-sub fade-up" style="transition-delay:160ms">Can't find a slot? Drop your info and get notified when new appointments open up.</p>
-  <form class="waitlist-form fade-up" style="transition-delay:240ms" onsubmit="return false;">
-    <input type="text" class="waitlist-input" placeholder="Your Name" />
-    <input type="tel" class="waitlist-input" placeholder="Phone Number" />
-    <button type="submit" class="btn-primary">Notify Me</button>
+  <form class="waitlist-form fade-up" style="transition-delay:240ms" id="waitlist-form" onsubmit="return false;">
+    <input type="text" class="waitlist-input" id="wl-name" placeholder="Your Name" autocomplete="name" />
+    <input type="tel" class="waitlist-input" id="wl-phone" placeholder="Phone Number" autocomplete="tel" />
+    <button type="submit" class="btn-primary" id="wl-btn">Notify Me</button>
   </form>
+  <p id="wl-msg" style="margin-top:14px;font-size:15px;min-height:20px;"></p>
 </section>
 
 <!-- ── SOCIALS ── -->
@@ -1390,7 +1391,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">Paril · Fade Mansion</div>
-  <div class="footer-right">Powered by <a href="#">Mindset LLC</a> &nbsp;·&nbsp; v0.1.5</div>
+  <div class="footer-right">Powered by <a href="#">Mindset LLC</a> &nbsp;·&nbsp; v0.1.6</div>
 </footer>
 
 <script>
@@ -1575,6 +1576,51 @@
     mSetDot(0);
     mStartTimer();
   }
+
+  /* ── WAITLIST FORM ── */
+  document.getElementById('waitlist-form').addEventListener('submit', async () => {
+    const name  = document.getElementById('wl-name').value.trim();
+    const phone = document.getElementById('wl-phone').value.trim();
+    const msg   = document.getElementById('wl-msg');
+    const btn   = document.getElementById('wl-btn');
+
+    if (!name || !phone) {
+      msg.style.color = '#e05252';
+      msg.textContent = 'Please enter your name and phone number.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+    msg.textContent = '';
+
+    try {
+      const res  = await fetch('/api/join-waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        msg.style.color = '#4caf82';
+        msg.textContent = `✓ You're #${data.position} on the list. We'll text you when a slot opens.`;
+        document.getElementById('wl-name').value = '';
+        document.getElementById('wl-phone').value = '';
+        btn.textContent = 'You\'re In';
+      } else {
+        msg.style.color = '#e05252';
+        msg.textContent = data.error || 'Something went wrong. Try again.';
+        btn.disabled = false;
+        btn.textContent = 'Notify Me';
+      }
+    } catch {
+      msg.style.color = '#e05252';
+      msg.textContent = 'Could not connect. Try again.';
+      btn.disabled = false;
+      btn.textContent = 'Notify Me';
+    }
+  });
 
   /* ── QR CODE ── */
   new QRCode(document.getElementById('qr-canvas'), {

@@ -1,3 +1,14 @@
+## v0.1.5 · May 1, 2026
+
+**Complete backend — waitlist system, slot blast, admin dashboard**
+Built the full backend for the waitlist feature. Added 6 API endpoints: joining the waitlist (with E.164 phone formatting), sending an SMS blast to everyone on the list via Twilio, viewing and removing waitlist members, tracking past blasts, and a public count endpoint. Created an admin dashboard with password protection, a live SMS message preview, blast history table, and full waitlist management with one-click remove. Wired up the waitlist form on the main site so it actually submits.
+
+You can now go to /admin.html to log in, preview and send slot notifications to everyone on the waitlist, and manage who's on the list — all from the dashboard.
+
+📄 api/join-waitlist.js, api/send-slot-blast.js, api/get-waitlist.js, api/remove-from-waitlist.js, api/get-slots.js + 3 more
+
+---
+
 ## v0.1.4 · April 30, 2026
 
 **Mobile video reel — auto-scroll with progress dots**
