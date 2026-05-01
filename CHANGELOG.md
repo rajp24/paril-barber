@@ -1,3 +1,14 @@
+## v0.1.6 · May 1, 2026
+
+**Discreet admin link in footer**
+Added a barely-visible "Admin" text link to the footer that navigates to the admin dashboard. No border, no background — just small dark text that blends in.
+
+You can now access the admin dashboard directly from the site footer without knowing the URL by heart.
+
+📄 index.html
+
+---
+
 ## v0.1.5 · May 1, 2026
 
 **Complete backend — waitlist system, slot blast, admin dashboard**
