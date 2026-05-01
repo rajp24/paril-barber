@@ -59,8 +59,8 @@ module.exports = async function handler(req, res) {
       try {
         const msg = await client.messages.create({
           body,
-          from: process.env.TWILIO_PHONE_NUMBER,
-          to,
+          from: 'whatsapp:+14155238886',
+          to: 'whatsapp:' + to,
         });
         console.log(`[blast] ✓ sent to ${to} — SID: ${msg.sid}`);
         sent++;
