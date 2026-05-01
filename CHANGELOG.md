@@ -1,3 +1,14 @@
+## v0.1.10 · May 1, 2026
+
+**Debug Twilio blast — better error logging and phone normalization**
+Added detailed logging to the slot blast API: logs how many numbers were pulled, logs each number before sending, and returns the exact Twilio error (message + error code) per failed number instead of silently swallowing it. Also added phone number normalization before each send so numbers stored without +1 are fixed on the fly.
+
+You can now see exactly which numbers failed and why when a blast doesn't go through — the response includes the full error details per recipient.
+
+📄 api/send-slot-blast.js
+
+---
+
 ## v0.1.9 · May 1, 2026
 
 **Switch database from Vercel Postgres to Neon**
