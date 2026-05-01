@@ -1,0 +1,47 @@
+#!/bin/sh
+# Create Trello card in Paril_Barber LOGS on every commit
+
+if [ -n "$PARIL_HOOK_RUNNING" ]; then exit 0; fi
+export PARIL_HOOK_RUNNING=1
+
+PROJECT="/Users/rajpatel/Desktop/Cowork Homebase/02 Projects/ParilBarber"
+PYTHON="/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
+VERSION_FILE="$PROJECT/version.json"
+ENV_FILE="$PROJECT/.env"
+
+# Load .env
+if [ -f "$ENV_FILE" ]; then
+  export $(grep -v '^#' "$ENV_FILE" | xargs)
+fi
+
+COMMIT_HASH=$(git -C "$PROJECT" rev-parse --short HEAD 2>/dev/null)
+COMMIT_MSG=$(git -C "$PROJECT" log -1 --pretty=%s 2>/dev/null)
+COMMIT_DATE=$(date "+%Y-%m-%d %H:%M ET")
+COMMIT_FILES=$(git -C "$PROJECT" diff --name-only HEAD~1 2>/dev/null | head -20 | tr '\n' ',' | sed 's/,$//' | sed 's/,/, /g')
+COMMIT_VERSION=$("$PYTHON" -c "import json; print('v'+json.load(open('$VERSION_FILE'))['version'])" 2>/dev/null)
+
+# Changelog entry was written for version - 1
+CHANGELOG_VERSION=$("$PYTHON" -c "
+v='${COMMIT_VERSION}'.lstrip('v').split('.')
+v[2]=str(max(0,int(v[2])-1))
+print('v'+'.'.join(v))
+" 2>/dev/null)
+
+DESC=$("$PYTHON" "$PROJECT/scripts/trello_desc.py" "$CHANGELOG_VERSION" "$COMMIT_HASH" "$COMMIT_DATE" "$COMMIT_FILES" "$PROJECT" 2>/dev/null)
+if [ -z "$DESC" ]; then
+  DESC="📝 $COMMIT_MSG
+🔧 Commit: $COMMIT_HASH
+📅 Date: $COMMIT_DATE
+📁 Files: $COMMIT_FILES"
+fi
+
+curl -s -X POST "https://api.trello.com/1/cards" \
+  --data-urlencode "name=$COMMIT_VERSION" \
+  --data-urlencode "desc=$DESC" \
+  --data-urlencode "idList=${TRELLO_LIST_ID}" \
+  --data-urlencode "pos=top" \
+  --data-urlencode "key=${TRELLO_API_KEY}" \
+  --data-urlencode "token=${TRELLO_TOKEN}" \
+  >/dev/null 2>&1
+
+echo "Trello: logged $COMMIT_VERSION"

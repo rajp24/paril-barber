@@ -1,0 +1,48 @@
+#!/bin/sh
+# Auto-bump patch version in version.json and update site footer
+
+PROJECT="/Users/rajpatel/Desktop/Cowork Homebase/02 Projects/ParilBarber"
+PYTHON="/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
+VERSION_FILE="$PROJECT/version.json"
+SITE_FILE="$PROJECT/index.html"
+
+if [ ! -f "$VERSION_FILE" ]; then
+  echo '{"version": "0.1.0"}' > "$VERSION_FILE"
+fi
+
+current=$("$PYTHON" -c "import json; d=json.load(open('$VERSION_FILE')); print(d['version'])" 2>/dev/null)
+if [ -z "$current" ]; then
+  current="0.1.0"
+fi
+
+new_version=$("$PYTHON" -c "
+v='$current'.split('.')
+v[2] = str(int(v[2]) + 1)
+print('.'.join(v))
+" 2>/dev/null)
+
+if [ -z "$new_version" ]; then
+  exit 0
+fi
+
+# Bump version.json
+"$PYTHON" -c "
+import json
+with open('$VERSION_FILE', 'w') as f:
+    json.dump({'version': '$new_version'}, f)
+    f.write('\n')
+"
+
+# Update footer version in index.html
+"$PYTHON" -c "
+import re
+path = '$SITE_FILE'
+with open(path) as f:
+    content = f.read()
+content = re.sub(r'v0\.\d+\.\d+', 'v$new_version', content)
+with open(path, 'w') as f:
+    f.write(content)
+"
+
+git -C "$PROJECT" add "$VERSION_FILE" "$SITE_FILE"
+echo "Version bumped: $current → $new_version"
