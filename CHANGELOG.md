@@ -1,3 +1,14 @@
+## v0.1.15 · May 1, 2026
+
+**Remove deleted photo from slideshow, rewrite bio in first person**
+Removed the deleted extra_web.jpg from the hero slideshow so it now starts with backdrop2 and cycles through the rest. Rewrote the About section bio from third person to first person so it reads like Paril is speaking directly.
+
+You can now read the bio as Paril's own words, and the hero slideshow no longer references a missing image.
+
+📄 index.html
+
+---
+
 ## v0.1.14 · May 1, 2026
 
 **Enforce CHANGELOG entry on every commit**
