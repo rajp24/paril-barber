@@ -1,3 +1,14 @@
+## v0.1.16 · May 1, 2026
+
+**Fix hero slideshow — start with backdrop_web.jpg**
+Updated the first slide to use backdrop_web.jpg instead of backdrop2_web.jpg, then cycles through backdrop2–8 as before.
+
+You can now see the correct first photo when the hero loads.
+
+📄 index.html
+
+---
+
 ## v0.1.15 · May 1, 2026
 
 **Remove deleted photo from slideshow, rewrite bio in first person**
