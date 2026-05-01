@@ -1,4 +1,5 @@
-const { sql } = require('@vercel/postgres');
+const { neon } = require('@neondatabase/serverless');
+const sql = neon(process.env.DATABASE_URL);
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -12,7 +13,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { rows } = await sql`
+    const rows = await sql`
       SELECT id, name, phone, joined_at
       FROM waitlist
       WHERE active = true

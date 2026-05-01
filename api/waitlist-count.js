@@ -1,4 +1,5 @@
-const { sql } = require('@vercel/postgres');
+const { neon } = require('@neondatabase/serverless');
+const sql = neon(process.env.DATABASE_URL);
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -6,7 +7,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { rows } = await sql`
+    const rows = await sql`
       SELECT COUNT(*) AS count FROM waitlist WHERE active = true
     `;
     return res.status(200).json({ count: parseInt(rows[0].count, 10) });

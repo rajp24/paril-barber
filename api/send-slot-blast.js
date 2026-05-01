@@ -1,4 +1,5 @@
-const { sql } = require('@vercel/postgres');
+const { neon } = require('@neondatabase/serverless');
+const sql = neon(process.env.DATABASE_URL);
 const twilio = require('twilio');
 
 const BOOK_URL =
@@ -19,7 +20,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { rows } = await sql`
+    const rows = await sql`
       SELECT id, name, phone FROM waitlist WHERE active = true
     `;
 

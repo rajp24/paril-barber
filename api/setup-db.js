@@ -1,4 +1,5 @@
-const { sql } = require('@vercel/postgres');
+const { neon } = require('@neondatabase/serverless');
+const sql = neon(process.env.DATABASE_URL);
 
 module.exports = async function handler(req, res) {
   try {

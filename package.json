@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@vercel/postgres": "^0.10.0",
+    "@neondatabase/serverless": "^1.1.0",
     "twilio": "^6.0.0"
   }
 }

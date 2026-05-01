@@ -1,4 +1,5 @@
-const { sql } = require('@vercel/postgres');
+const { neon } = require('@neondatabase/serverless');
+const sql = neon(process.env.DATABASE_URL);
 
 function formatPhone(raw) {
   const digits = raw.replace(/\D/g, '');
@@ -31,7 +32,7 @@ module.exports = async function handler(req, res) {
       INSERT INTO waitlist (name, phone) VALUES (${name.trim()}, ${formatted})
     `;
 
-    const { rows } = await sql`
+    const rows = await sql`
       SELECT COUNT(*) AS count FROM waitlist WHERE active = true
     `;
 

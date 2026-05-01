@@ -1,3 +1,14 @@
+## v0.1.9 · May 1, 2026
+
+**Switch database from Vercel Postgres to Neon**
+Replaced @vercel/postgres with the Neon serverless driver across all API routes. Updated the connection to use DATABASE_URL and fixed result handling — Neon returns rows as a direct array rather than wrapped in an object, so all query results were updated accordingly.
+
+You can now connect to the Neon database. Visit /api/setup-db once after deploying to create the tables.
+
+📄 api/join-waitlist.js, api/get-waitlist.js, api/get-slots.js, api/send-slot-blast.js + 3 more
+
+---
+
 ## v0.1.8 · May 1, 2026
 
 **Debug waitlist API — expose real error messages**
