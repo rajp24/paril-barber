@@ -566,6 +566,35 @@
     .reel-track::-webkit-scrollbar { display: none; }
     .reel-track.dragging { cursor: grabbing; }
 
+    /* ─── REEL PROGRESS DOTS ─── */
+    .reel-dots { display: none; } /* mobile only — shown in media query below */
+
+    .reel-dot {
+      height: 4px;
+      width: 6px;
+      background: #333;
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+      transition: width 0.3s ease;
+      flex-shrink: 0;
+    }
+    .reel-dot.active { width: 24px; }
+    .reel-dot-fill {
+      position: absolute;
+      inset: 0;
+      width: 0%;
+      background: #7ab8d4;
+      border-radius: 2px;
+    }
+    .reel-dot.active .reel-dot-fill {
+      animation: dotProgress 5s linear forwards;
+    }
+    @keyframes dotProgress {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
+
     /* Each card */
     .reel-card {
       position: relative;
@@ -973,6 +1002,16 @@
       .reel-outer {
         -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 96%);
         mask-image: linear-gradient(to right, #000 70%, transparent 96%);
+        padding-bottom: 0;
+      }
+
+      /* Progress dots — mobile only */
+      .reel-dots {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 16px 0 40px;
       }
 
       /* Socials */
@@ -1144,6 +1183,14 @@
         <span class="vid-cut-label">Cut 04</span>
       </div>
 
+    </div>
+
+    <!-- Progress dots — visible on mobile only via CSS -->
+    <div class="reel-dots" id="reel-dots">
+      <div class="reel-dot active"><div class="reel-dot-fill"></div></div>
+      <div class="reel-dot"><div class="reel-dot-fill"></div></div>
+      <div class="reel-dot"><div class="reel-dot-fill"></div></div>
+      <div class="reel-dot"><div class="reel-dot-fill"></div></div>
     </div>
   </div>
 </section>
@@ -1343,7 +1390,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">Paril · Fade Mansion</div>
-  <div class="footer-right">Powered by <a href="#">Mindset LLC</a> &nbsp;·&nbsp; v0.1.4</div>
+  <div class="footer-right">Powered by <a href="#">Mindset LLC</a> &nbsp;·&nbsp; v0.1.5</div>
 </footer>
 
 <script>
@@ -1466,6 +1513,68 @@
     const el = document.getElementById(id);
     if (el) el.addEventListener('click', openDirections);
   });
+
+  /* ── MOBILE REEL: Auto-scroll + progress dots ── */
+  if (window.innerWidth <= 768) {
+    const mCards  = Array.from(document.querySelectorAll('.reel-card'));
+    const mDots   = Array.from(document.querySelectorAll('.reel-dot'));
+    const mTrack  = document.getElementById('reel-track');
+    let mIdx      = 0;
+    let mTimer    = null;
+
+    function mSetDot(index) {
+      mDots.forEach(dot => {
+        dot.classList.remove('active');
+        const fill = dot.querySelector('.reel-dot-fill');
+        fill.style.animation = 'none';
+        void fill.offsetHeight; // force reflow to restart animation
+        fill.style.animation = '';
+      });
+      mDots[index].classList.add('active');
+      mIdx = index;
+    }
+
+    function mScrollTo(index) {
+      // offsetLeft of card minus left padding (20px on mobile)
+      const target = Math.max(0, mCards[index].offsetLeft - 20);
+      mTrack.scrollTo({ left: target, behavior: 'smooth' });
+    }
+
+    function mStartTimer() {
+      clearInterval(mTimer);
+      mTimer = setInterval(() => {
+        const next = (mIdx + 1) % mCards.length;
+        mSetDot(next);
+        mScrollTo(next);
+      }, 5000);
+    }
+
+    function mGetVisibleIndex() {
+      let closest = 0, minDist = Infinity;
+      mCards.forEach((card, i) => {
+        const dist = Math.abs((card.offsetLeft - 20) - mTrack.scrollLeft);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      return closest;
+    }
+
+    // Reset timer when user manually swipes
+    mTrack.addEventListener('touchstart', () => {
+      clearInterval(mTimer);
+    }, { passive: true });
+
+    mTrack.addEventListener('touchend', () => {
+      setTimeout(() => {
+        const idx = mGetVisibleIndex();
+        mSetDot(idx);
+        mStartTimer();
+      }, 350); // let scroll settle before checking position
+    }, { passive: true });
+
+    // Init
+    mSetDot(0);
+    mStartTimer();
+  }
 
   /* ── QR CODE ── */
   new QRCode(document.getElementById('qr-canvas'), {

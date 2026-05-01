@@ -1,3 +1,14 @@
+## v0.1.4 · April 30, 2026
+
+**Mobile video reel — auto-scroll with progress dots**
+Added auto-scrolling to the video reel on mobile. Every 5 seconds it smoothly scrolls to the next video and loops back to the start. If you swipe manually, the timer resets. Four progress dots appear below the reel — the active dot expands into a pill shape and fills left to right as the timer counts down, then transitions to the next dot.
+
+You can now browse all four video cuts on mobile without touching the screen, and always know which video is playing and when the next one is coming.
+
+📄 index.html
+
+---
+
 ## v0.1.3 · April 30, 2026
 
 **Further increase to desktop text sizes**
