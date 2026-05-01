@@ -1,3 +1,14 @@
+## v0.1.14 · May 1, 2026
+
+**Enforce CHANGELOG entry on every commit**
+Updated the pre-commit hook to block any commit that doesn't have a CHANGELOG entry for the current version. Prints the exact format to copy-paste so it's quick to fill in.
+
+You can now never accidentally ship a commit without a plain-English description — the hook won't let it through.
+
+📄 .githooks/pre-commit
+
+---
+
 ## v0.1.13 · May 1, 2026
 
 **Move admin link to top nav**

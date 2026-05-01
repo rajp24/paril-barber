@@ -1,10 +1,12 @@
 #!/bin/sh
 # Auto-bump patch version in version.json and update site footer
+# Blocks commit if no CHANGELOG entry exists for the current version
 
 PROJECT="/Users/rajpatel/Desktop/Cowork Homebase/02 Projects/ParilBarber"
 PYTHON="/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
 VERSION_FILE="$PROJECT/version.json"
 SITE_FILE="$PROJECT/index.html"
+CHANGELOG_FILE="$PROJECT/CHANGELOG.md"
 
 if [ ! -f "$VERSION_FILE" ]; then
   echo '{"version": "0.1.0"}' > "$VERSION_FILE"
@@ -13,6 +15,30 @@ fi
 current=$("$PYTHON" -c "import json; d=json.load(open('$VERSION_FILE')); print(d['version'])" 2>/dev/null)
 if [ -z "$current" ]; then
   current="0.1.0"
+fi
+
+# ── CHANGELOG CHECK ──
+# The post-commit hook logs a Trello card for the current version.
+# That card will pull its description from the CHANGELOG entry for this version.
+# Block the commit if no entry exists yet.
+if ! grep -q "## v${current} ·" "$CHANGELOG_FILE" 2>/dev/null; then
+  echo ""
+  echo "  ✗ COMMIT BLOCKED — missing CHANGELOG entry"
+  echo ""
+  echo "  Add this to the top of CHANGELOG.md before committing:"
+  echo ""
+  echo "  ## v${current} · $(date '+%B %-d, %Y')"
+  echo ""
+  echo "  **[Short title for this change]**"
+  echo "  [One sentence describing what changed.]"
+  echo ""
+  echo "  You can now [what the user can do that they couldn't before]."
+  echo ""
+  echo "  📄 [changed files]"
+  echo ""
+  echo "  ---"
+  echo ""
+  exit 1
 fi
 
 new_version=$("$PYTHON" -c "
