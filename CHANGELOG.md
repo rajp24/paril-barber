@@ -1,3 +1,36 @@
+## v0.1.13 · May 1, 2026
+
+**Move admin link to top nav**
+Moved the Admin link from the footer to the top navigation bar, right after the TikTok icon. Removed it from the footer.
+
+You can now tap Admin directly from the nav bar at the top of the page — much easier to find and access from any section of the site.
+
+📄 index.html
+
+---
+
+## v0.1.12 · May 1, 2026
+
+**Switch Twilio sender to WhatsApp sandbox**
+Updated the slot blast to send via WhatsApp using the Twilio sandbox number (+14155238886) instead of a standard SMS number. Both the from and to fields are now prefixed with whatsapp: so messages route through WhatsApp.
+
+You can now receive slot blast notifications as WhatsApp messages instead of SMS.
+
+📄 api/send-slot-blast.js
+
+---
+
+## v0.1.11 · May 1, 2026
+
+**Debug Twilio blast — detailed per-number error logging**
+Added recipient-level logging to the blast endpoint: logs the count fetched from the database, logs each number before sending, and returns exact Twilio error codes per failed number in the response. Also added phone normalization at send time so numbers without +1 are fixed automatically.
+
+You can now see exactly which numbers failed and the specific Twilio error code for each one in the API response.
+
+📄 api/send-slot-blast.js
+
+---
+
 ## v0.1.10 · May 1, 2026
 
 **Debug Twilio blast — better error logging and phone normalization**
@@ -28,6 +61,17 @@ Updated all API routes to return the actual error message from the server instea
 You can now see the real error in the browser response when an API call fails, making it much easier to diagnose issues.
 
 📄 api/join-waitlist.js, api/waitlist-count.js
+
+---
+
+## v0.1.7 · May 1, 2026
+
+**Remove vercel.json to fix build error**
+Deleted vercel.json entirely after the runtime format kept causing Vercel build failures. Vercel auto-detects Node.js serverless functions in the /api folder without needing a config file.
+
+You can now deploy without the build erroring out on the runtime version config.
+
+📄 vercel.json (deleted)
 
 ---
 
