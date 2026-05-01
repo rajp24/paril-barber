@@ -204,16 +204,27 @@
       100% { transform: scale(1.08); }
     }
 
-    .hero-img {
+    .hero-slideshow {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-slide {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center top;
-      animation: kenBurns 12s ease-in-out infinite alternate;
+      animation: kenBurns 14s ease-in-out infinite alternate;
       transform-origin: center center;
+      filter: grayscale(15%) brightness(0.85);
+      opacity: 0;
+      transition: opacity 1.5s ease;
     }
+    .hero-slide.active { opacity: 1; }
 
     .hero-scrim {
       position: absolute;
@@ -683,11 +694,13 @@
       padding-top: 16px;
     }
 
-    .service-price {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 34px;
+    .service-cta {
+      font-size: 12px;
       letter-spacing: 2px;
+      text-transform: uppercase;
       color: var(--accent);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
     }
 
     .service-dur {
@@ -696,6 +709,41 @@
       text-transform: uppercase;
       color: rgba(240,237,230,0.6);
     }
+
+    /* ─── WAITLIST ─── */
+    #waitlist { background: var(--bg-dark); }
+
+    .waitlist-sub {
+      font-size: 17px;
+      font-weight: 400;
+      color: rgba(240,237,230,0.82);
+      max-width: 520px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .waitlist-form {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .waitlist-input {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      background: var(--surface);
+      border: 0.5px solid var(--border2);
+      border-radius: var(--r);
+      color: var(--text);
+      padding: 14px 18px;
+      outline: none;
+      transition: border-color .2s;
+      flex: 1 1 200px;
+    }
+    .waitlist-input::placeholder { color: var(--muted); opacity: 1; }
+    .waitlist-input:focus { border-color: var(--accent); }
 
     /* ─── SOCIALS ─── */
     #socials {
@@ -931,7 +979,16 @@
 
 <!-- ── HERO ── -->
 <section id="hero">
-  <img class="hero-img" src="images/backdrop_web.jpg" alt="Paril cutting hair" />
+  <div class="hero-slideshow">
+    <img class="hero-slide active" src="images/extra_web.jpg" alt="" />
+    <img class="hero-slide" src="images/backdrop2_web.jpg" alt="" />
+    <img class="hero-slide" src="images/backdrop3_web.jpg" alt="" />
+    <img class="hero-slide" src="images/backdrop4_web.jpg" alt="" />
+    <img class="hero-slide" src="images/backdrop5_web.jpg" alt="" />
+    <img class="hero-slide" src="images/backdrop6_web.jpg" alt="" />
+    <img class="hero-slide" src="images/backdrop7_web.jpg" alt="" />
+    <img class="hero-slide" src="images/backdrop8_web.jpg" alt="" />
+  </div>
   <div class="hero-scrim"></div>
 
   <div class="hero-content">
@@ -959,6 +1016,70 @@
   </div>
 </section>
 
+<!-- ── SHOWCASE ── -->
+<section id="showcase">
+  <div class="section-header">
+    <p class="label fade-up">The Work</p>
+    <h2 class="section-title fade-up" style="transition-delay:80ms">See It for Yourself</h2>
+  </div>
+
+  <div class="reel-outer fade-up" style="transition-delay:160ms">
+    <div class="reel-track" id="reel-track">
+
+      <div class="reel-card" data-src="images/main.mp4">
+        <video src="images/main.mp4" playsinline preload="auto" loop muted></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span class="vid-overlay-txt">Tap to watch</span>
+        </div>
+        <span class="vid-cut-label">Cut 01</span>
+      </div>
+
+      <div class="reel-card" data-src="images/second.mp4">
+        <video src="images/second.mp4" playsinline preload="auto" loop muted></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span class="vid-overlay-txt">Tap to watch</span>
+        </div>
+        <span class="vid-cut-label">Cut 02</span>
+      </div>
+
+      <div class="reel-card" data-src="images/third.mp4">
+        <video src="images/third.mp4" playsinline preload="auto" loop muted></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span class="vid-overlay-txt">Tap to watch</span>
+        </div>
+        <span class="vid-cut-label">Cut 03</span>
+      </div>
+
+      <div class="reel-card" data-src="images/fourth.mp4">
+        <video src="images/fourth.mp4" playsinline preload="auto" loop muted></video>
+        <div class="vid-overlay">
+          <div class="play-ring">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span class="vid-overlay-txt">Tap to watch</span>
+        </div>
+        <span class="vid-cut-label">Cut 04</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── LIGHTBOX ── -->
+<div id="vid-lightbox">
+  <button id="lb-close" aria-label="Close">&times;</button>
+  <video id="lb-video" controls playsinline></video>
+</div>
+
 <!-- ── ABOUT ── -->
 <section id="about">
   <div class="about-grid">
@@ -970,7 +1091,7 @@
       </p>
       <div class="stats-grid">
         <div class="stat-card fade-up" style="transition-delay:240ms">
-          <div class="stat-num">5+</div>
+          <div class="stat-num">6+</div>
           <div class="stat-lbl">Years Cutting</div>
         </div>
         <div class="stat-card fade-up" style="transition-delay:340ms">
@@ -978,7 +1099,7 @@
           <div class="stat-lbl">Rating</div>
         </div>
         <div class="stat-card fade-up" style="transition-delay:440ms">
-          <div class="stat-num">500+</div>
+          <div class="stat-num">2500+</div>
           <div class="stat-lbl">Happy Clients</div>
         </div>
         <div class="stat-card fade-up" style="transition-delay:540ms">
@@ -1025,70 +1146,6 @@
   </div>
 </section>
 
-<!-- ── SHOWCASE ── -->
-<section id="showcase">
-  <div class="section-header">
-    <p class="label fade-up">The Work</p>
-    <h2 class="section-title fade-up" style="transition-delay:80ms">See It for Yourself</h2>
-  </div>
-
-  <div class="reel-outer fade-up" style="transition-delay:160ms">
-    <div class="reel-track" id="reel-track">
-
-      <div class="reel-card" data-src="images/main.mp4">
-        <video src="images/main.mp4" playsinline preload="none" loop muted></video>
-        <div class="vid-overlay">
-          <div class="play-ring">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-          <span class="vid-overlay-txt">Hover to watch</span>
-        </div>
-        <span class="vid-cut-label">Cut 01</span>
-      </div>
-
-      <div class="reel-card" data-src="images/second.mp4">
-        <video src="images/second.mp4" playsinline preload="none" loop muted></video>
-        <div class="vid-overlay">
-          <div class="play-ring">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-          <span class="vid-overlay-txt">Hover to watch</span>
-        </div>
-        <span class="vid-cut-label">Cut 02</span>
-      </div>
-
-      <div class="reel-card" data-src="images/third.mp4">
-        <video src="images/third.mp4" playsinline preload="none" loop muted></video>
-        <div class="vid-overlay">
-          <div class="play-ring">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-          <span class="vid-overlay-txt">Hover to watch</span>
-        </div>
-        <span class="vid-cut-label">Cut 03</span>
-      </div>
-
-      <div class="reel-card" data-src="images/fourth.mp4">
-        <video src="images/fourth.mp4" playsinline preload="none" loop muted></video>
-        <div class="vid-overlay">
-          <div class="play-ring">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(240,237,230,0.9)"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-          <span class="vid-overlay-txt">Hover to watch</span>
-        </div>
-        <span class="vid-cut-label">Cut 04</span>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ── LIGHTBOX ── -->
-<div id="vid-lightbox">
-  <button id="lb-close" aria-label="Close">&times;</button>
-  <video id="lb-video" controls playsinline></video>
-</div>
-
 <!-- ── SERVICES ── -->
 <section id="services">
   <p class="label fade-up">Pricing</p>
@@ -1099,7 +1156,7 @@
       <div class="service-name">Fade / Beard / Scissorcut</div>
       <p class="service-desc">Full fade with beard detail and scissor finish. The complete package.</p>
       <div class="service-footer">
-        <div class="service-price">$60</div>
+        <div class="service-cta">Click to Book</div>
         <div class="service-dur">1 hr</div>
       </div>
     </a>
@@ -1108,7 +1165,7 @@
       <div class="service-name">Fade &amp; Scissorcut (No Beard)</div>
       <p class="service-desc">Clean fade and scissor cut — styled to your look, no beard work.</p>
       <div class="service-footer">
-        <div class="service-price">$50</div>
+        <div class="service-cta">Click to Book</div>
         <div class="service-dur">1 hr</div>
       </div>
     </a>
@@ -1117,7 +1174,7 @@
       <div class="service-name">Shape Up</div>
       <p class="service-desc">Sharp edge-up to keep your line fresh and defined between cuts.</p>
       <div class="service-footer">
-        <div class="service-price">$30</div>
+        <div class="service-cta">Click to Book</div>
         <div class="service-dur">30 min</div>
       </div>
     </a>
@@ -1126,7 +1183,7 @@
       <div class="service-name">Shapeup With Beard</div>
       <p class="service-desc">Edge-up plus beard lineup — clean from top to bottom.</p>
       <div class="service-footer">
-        <div class="service-price">$35</div>
+        <div class="service-cta">Click to Book</div>
         <div class="service-dur">30 min</div>
       </div>
     </a>
@@ -1135,11 +1192,23 @@
       <div class="service-name">Beard Only</div>
       <p class="service-desc">Detail and shape your beard to look intentional and clean.</p>
       <div class="service-footer">
-        <div class="service-price">$25</div>
+        <div class="service-cta">Click to Book</div>
         <div class="service-dur">30 min</div>
       </div>
     </a>
   </div>
+</section>
+
+<!-- ── WAITLIST ── -->
+<section id="waitlist">
+  <p class="label fade-up">Stay Ready</p>
+  <h2 class="section-title fade-up" style="transition-delay:80ms">Join the Waitlist</h2>
+  <p class="waitlist-sub fade-up" style="transition-delay:160ms">Can't find a slot? Drop your info and get notified when new appointments open up.</p>
+  <form class="waitlist-form fade-up" style="transition-delay:240ms" onsubmit="return false;">
+    <input type="text" class="waitlist-input" placeholder="Your Name" />
+    <input type="tel" class="waitlist-input" placeholder="Phone Number" />
+    <button type="submit" class="btn-primary">Notify Me</button>
+  </form>
 </section>
 
 <!-- ── SOCIALS ── -->
@@ -1273,36 +1342,39 @@
   lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
-  /* ── REEL CARDS: hover preview + click lightbox ── */
-  const isTouch = window.matchMedia('(hover: none)').matches;
+  /* ── HERO SLIDESHOW ── */
+  const slides = document.querySelectorAll('.hero-slide');
+  let currentSlide = 0;
+  setInterval(() => {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }, 4000);
 
-  if (isTouch) {
-    document.querySelectorAll('.vid-overlay-txt').forEach(el => el.textContent = 'Tap to watch');
-  }
-
-  document.querySelectorAll('.reel-card').forEach(card => {
-    const vid     = card.querySelector('video');
-    const overlay = card.querySelector('.vid-overlay');
-    const src     = card.dataset.src;
-
-    if (isTouch) {
-      card.addEventListener('click', () => openLightbox(src));
-    } else {
-      card.addEventListener('mouseenter', () => {
+  /* ── REEL CARDS: viewport autoplay + click lightbox ── */
+  const vidObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const vid = entry.target.querySelector('video');
+      if (entry.isIntersecting) {
         vid.muted = true;
         vid.play().catch(() => {});
-      });
-      card.addEventListener('mouseleave', () => {
+        entry.target.querySelector('.vid-overlay').style.opacity = '0';
+      } else {
         vid.pause();
-        vid.currentTime = 0;
-      });
-      card.addEventListener('click', () => {
-        if (dragMoved) return; // was a drag, not a tap
-        vid.pause();
-        vid.currentTime = 0;
-        openLightbox(src);
-      });
-    }
+        entry.target.querySelector('.vid-overlay').style.opacity = '1';
+      }
+    });
+  }, { threshold: 0.35 });
+
+  document.querySelectorAll('.reel-card').forEach(card => {
+    const vid = card.querySelector('video');
+    const src = card.dataset.src;
+    vidObserver.observe(card);
+    card.addEventListener('click', () => {
+      if (dragMoved) return;
+      vid.pause();
+      openLightbox(src);
+    });
   });
 
   /* ── DIRECTIONS ── */
