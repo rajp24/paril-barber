@@ -1,3 +1,14 @@
+## v0.1.2 · April 30, 2026
+
+**Desktop text size increase + Trello log descriptions**
+Bumped up font sizes across the site on desktop so all text is larger and easier to read — hero tagline, section headings, body copy, service descriptions, and contact info all got bigger. Also wired up the Trello log system so every commit now shows a plain-English description of what changed, not just the raw commit details.
+
+You can now read the site comfortably on desktop without squinting, and every Trello log card includes a clear summary of what was updated.
+
+📄 index.html, CHANGELOG.md
+
+---
+
 ## v0.1.0 · April 30, 2026
 
 **Initial full site build — Paril Barber landing page**
