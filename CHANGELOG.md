@@ -1,3 +1,14 @@
+## v0.1.19 · May 3, 2026
+
+**Fix Cut 02 — re-encode 4K HDR video for browser playback**
+Re-encoded new1.MOV with proper HDR-to-SDR tone mapping since the first pass failed to handle the 10-bit HEVC color space correctly.
+
+You can now see Cut 02 playing correctly in the video reel.
+
+📄 new1.mp4
+
+---
+
 ## v0.1.18 · May 3, 2026
 
 **Convert new video cuts to browser-compatible MP4**
