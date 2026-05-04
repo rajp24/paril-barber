@@ -1,3 +1,14 @@
+## v0.1.23 · May 4, 2026
+
+**Hero images — vignette blend on desktop**
+Removed the blurred bg + contain approach on desktop and replaced it with a full-cover image that fades naturally into the dark site background using left, right, and bottom gradient overlays plus a radial vignette.
+
+You can now see the hero images blend into the page on desktop with no hard edges — subject stays visible in the center while the edges melt into black.
+
+📄 index.html
+
+---
+
 ## v0.1.22 · May 4, 2026
 
 **Waitlist modal — nav button, animated popup, desktop + mobile**
