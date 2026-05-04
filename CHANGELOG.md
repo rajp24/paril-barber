@@ -1,3 +1,14 @@
+## v0.1.18 · May 3, 2026
+
+**Convert new video cuts to browser-compatible MP4**
+Converted new1.MOV and new2.MOV to H.264 MP4 so browsers can actually play them, and updated the reel to reference the new files.
+
+You can now see Cut 02 and Cut 04 playing correctly in the video reel instead of a black screen.
+
+📄 index.html, new1.mp4, new2.mp4
+
+---
+
 ## v0.1.17 · May 1, 2026
 
 **Swap video reel cuts 02 and 04 with new footage**
