@@ -1,3 +1,14 @@
+## v0.1.22 · May 4, 2026
+
+**Waitlist modal — nav button, animated popup, desktop + mobile**
+Added a "Join Waitlist" button to the nav and hero that opens a premium animated modal with the waitlist form — desktop scales in with a spring, mobile slides up as a bottom sheet with drag-to-dismiss. Includes phone auto-formatting, loading state, and an animated success screen that auto-closes after 3 seconds.
+
+You can now join the waitlist from anywhere on the page without scrolling down to find the form.
+
+📄 index.html
+
+---
+
 ## v0.1.21 · May 4, 2026
 
 **Add terms and conditions page**
