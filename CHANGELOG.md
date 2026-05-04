@@ -1,3 +1,14 @@
+## v0.1.23 · May 4, 2026
+
+**Hero desktop — photo mosaic collage behind PARIL text**
+Replaced the single hero slideshow on desktop with a static photo mosaic grid: backdrop_web.jpg anchors the left 60% at full height, backdrop2–8 fill the right in two stacked columns with 3px gaps. Slideshow still runs on mobile. Dark overlay keeps PARIL text readable.
+
+You can now see all the hero photos at once on desktop in a tight collage behind the name and CTAs.
+
+📄 index.html
+
+---
+
 ## v0.1.22 · May 4, 2026
 
 **Waitlist modal — nav button, animated popup, desktop + mobile**

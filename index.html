@@ -237,25 +237,51 @@
       filter: grayscale(15%) brightness(0.85);
     }
 
-    /* Desktop: blurred bg fill + contained foreground + larger text */
+    /* ─── HERO MOSAIC (desktop only) ─── */
+    .hero-mosaic {
+      display: none; /* hidden on mobile */
+    }
+
+    /* Desktop: mosaic replaces slideshow */
     @media (min-width: 769px) {
-      .hero-slide-bg {
-        display: block;
+      /* Hide the slideshow, show the mosaic */
+      .hero-slideshow { display: none; }
+
+      .hero-mosaic {
+        display: grid;
         position: absolute;
         inset: 0;
+        grid-template-columns: 3fr 1fr 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        gap: 3px;
+      }
+
+      .hm-cell {
+        overflow: hidden;
+        min-height: 0;
+        min-width: 0;
+      }
+      .hm-cell img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transform: scale(1.12);
-        filter: blur(22px) brightness(0.4);
+        display: block;
+        filter: grayscale(20%);
       }
-      .hero-slide-fg {
-        object-fit: contain;
-        object-position: center center;
-        filter: grayscale(15%);
-        animation: kenBurns 14s ease-in-out infinite alternate;
-        transform-origin: center center;
-      }
+
+      /* Main anchor — left column, full height */
+      .hm-main  { grid-column: 1; grid-row: 1 / 5; }
+
+      /* Col 2 — 4 images stacked */
+      .hm-c2r1  { grid-column: 2; grid-row: 1; }
+      .hm-c2r2  { grid-column: 2; grid-row: 2; }
+      .hm-c2r3  { grid-column: 2; grid-row: 3; }
+      .hm-c2r4  { grid-column: 2; grid-row: 4; }
+
+      /* Col 3 — 2 images + 1 tall to fill gap */
+      .hm-c3r1  { grid-column: 3; grid-row: 1; }
+      .hm-c3r2  { grid-column: 3; grid-row: 2; }
+      .hm-c3r3  { grid-column: 3; grid-row: 3 / 5; } /* spans 2 rows */
 
       /* ── Desktop typography boost ── */
       body { font-weight: 400; }
@@ -283,6 +309,15 @@
         rgba(0,0,0,0.9) 0%,
         rgba(0,0,0,0.45) 50%,
         rgba(0,0,0,0.1) 100%);
+    }
+
+    /* Desktop scrim: flat dark overlay + bottom gradient for text readability */
+    @media (min-width: 769px) {
+      .hero-scrim {
+        background:
+          linear-gradient(to top, rgba(10,10,10,0.92) 0%, transparent 50%),
+          linear-gradient(rgba(10,10,10,0.55), rgba(10,10,10,0.55));
+      }
     }
 
     .hero-content {
@@ -1344,6 +1379,18 @@
       <img class="hero-slide-fg" src="images/backdrop8_web.jpg" alt="" />
     </div>
   </div>
+  <!-- Desktop mosaic (hidden on mobile via CSS) -->
+  <div class="hero-mosaic" aria-hidden="true">
+    <div class="hm-cell hm-main"> <img src="images/backdrop_web.jpg"  alt="" /></div>
+    <div class="hm-cell hm-c2r1"> <img src="images/backdrop2_web.jpg" alt="" /></div>
+    <div class="hm-cell hm-c2r2"> <img src="images/backdrop3_web.jpg" alt="" /></div>
+    <div class="hm-cell hm-c2r3"> <img src="images/backdrop4_web.jpg" alt="" /></div>
+    <div class="hm-cell hm-c2r4"> <img src="images/backdrop5_web.jpg" alt="" /></div>
+    <div class="hm-cell hm-c3r1"> <img src="images/backdrop6_web.jpg" alt="" /></div>
+    <div class="hm-cell hm-c3r2"> <img src="images/backdrop7_web.jpg" alt="" /></div>
+    <div class="hm-cell hm-c3r3"> <img src="images/backdrop8_web.jpg" alt="" /></div>
+  </div>
+
   <div class="hero-scrim"></div>
 
   <div class="hero-content">
@@ -1634,7 +1681,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">Paril · Fade Mansion</div>
-  <div class="footer-right">Powered by <a href="#">Mindset LLC</a> &nbsp;·&nbsp; v0.1.23</div>
+  <div class="footer-right">Powered by <a href="#">Mindset LLC</a> &nbsp;·&nbsp; v0.1.24</div>
 </footer>
 
 <script>
@@ -1707,14 +1754,16 @@
   lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
 
-  /* ── HERO SLIDESHOW ── */
-  const slides = document.querySelectorAll('.hero-slide');
-  let currentSlide = 0;
-  setInterval(() => {
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add('active');
-  }, 4000);
+  /* ── HERO SLIDESHOW (mobile only) ── */
+  if (window.innerWidth < 769) {
+    const slides = document.querySelectorAll('.hero-slide');
+    let currentSlide = 0;
+    setInterval(() => {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }, 4000);
+  }
 
   /* ── REEL CARDS: viewport autoplay + click lightbox ── */
   const vidObserver = new IntersectionObserver((entries) => {
