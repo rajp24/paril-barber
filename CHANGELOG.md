@@ -1,3 +1,14 @@
+## v0.1.20 · May 4, 2026
+
+**Add privacy policy page**
+Created a standalone privacy-policy.html covering data collection, usage, third-party sharing, opt-out instructions, and contact info — styled to match the main site.
+
+You can now link to /privacy-policy.html anywhere it's needed (e.g. waitlist form, SMS footer).
+
+📄 privacy-policy.html
+
+---
+
 ## v0.1.19 · May 3, 2026
 
 **Fix Cut 02 — re-encode 4K HDR video for browser playback**
