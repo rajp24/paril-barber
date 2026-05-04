@@ -251,37 +251,44 @@
         display: grid;
         position: absolute;
         inset: 0;
-        grid-template-columns: 3fr 1fr 1fr;
-        grid-template-rows: repeat(4, 1fr);
-        gap: 3px;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 4px;
+        background: #0d0d0d;
       }
-
-      .hm-cell {
-        overflow: hidden;
-        min-height: 0;
-        min-width: 0;
-      }
+      .hm-cell { position: relative; overflow: hidden; min-width: 0; min-height: 0; }
       .hm-cell img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        filter: grayscale(20%);
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover; display: block;
+        filter: grayscale(20%) brightness(0.92);
+        transform: scale(1.01);
+        opacity: 0;
+        transition: opacity 1.2s ease;
+        will-change: opacity;
+      }
+      .hm-cell img.active { opacity: 1; }
+
+      @keyframes anchorDrift {
+        0%   { transform: scale(1.02) translate(0, 0); }
+        100% { transform: scale(1.08) translate(-1.5%, -1%); }
+      }
+      .hm-anchor img {
+        opacity: 1;
+        animation: anchorDrift 18s ease-in-out infinite alternate;
       }
 
-      /* Main anchor — left column, full height */
-      .hm-main  { grid-column: 1; grid-row: 1 / 5; }
-
-      /* Col 2 — 4 images stacked */
-      .hm-c2r1  { grid-column: 2; grid-row: 1; }
-      .hm-c2r2  { grid-column: 2; grid-row: 2; }
-      .hm-c2r3  { grid-column: 2; grid-row: 3; }
-      .hm-c2r4  { grid-column: 2; grid-row: 4; }
-
-      /* Col 3 — 2 images + 1 tall to fill gap */
-      .hm-c3r1  { grid-column: 3; grid-row: 1; }
-      .hm-c3r2  { grid-column: 3; grid-row: 2; }
-      .hm-c3r3  { grid-column: 3; grid-row: 3 / 5; } /* spans 2 rows */
+      .hm-anchor { grid-column: 1; grid-row: 1; }
+      .hm-right {
+        grid-column: 2; grid-row: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1.2fr 1fr;
+        gap: 4px;
+        min-height: 0;
+      }
+      .hm-feature { grid-column: 1 / 3; grid-row: 1; }
+      .hm-q1      { grid-column: 1;     grid-row: 2; }
+      .hm-q2      { grid-column: 2;     grid-row: 2; }
 
       /* ── Desktop typography boost ── */
       body { font-weight: 400; }
@@ -1381,14 +1388,38 @@
   </div>
   <!-- Desktop mosaic (hidden on mobile via CSS) -->
   <div class="hero-mosaic" aria-hidden="true">
-    <div class="hm-cell hm-main"> <img src="images/backdrop_web.jpg"  alt="" /></div>
-    <div class="hm-cell hm-c2r1"> <img src="images/backdrop2_web.jpg" alt="" /></div>
-    <div class="hm-cell hm-c2r2"> <img src="images/backdrop3_web.jpg" alt="" /></div>
-    <div class="hm-cell hm-c2r3"> <img src="images/backdrop4_web.jpg" alt="" /></div>
-    <div class="hm-cell hm-c2r4"> <img src="images/backdrop5_web.jpg" alt="" /></div>
-    <div class="hm-cell hm-c3r1"> <img src="images/backdrop6_web.jpg" alt="" /></div>
-    <div class="hm-cell hm-c3r2"> <img src="images/backdrop7_web.jpg" alt="" /></div>
-    <div class="hm-cell hm-c3r3"> <img src="images/backdrop8_web.jpg" alt="" /></div>
+    <div class="hm-cell hm-anchor">
+      <img src="images/backdrop_web.jpg" alt="" />
+    </div>
+    <div class="hm-right">
+      <div class="hm-cell hm-feature" data-cycle>
+        <img src="images/backdrop2_web.jpg" alt="" class="active" />
+        <img src="images/backdrop3_web.jpg" alt="" />
+        <img src="images/backdrop4_web.jpg" alt="" />
+        <img src="images/backdrop5_web.jpg" alt="" />
+        <img src="images/backdrop6_web.jpg" alt="" />
+        <img src="images/backdrop7_web.jpg" alt="" />
+        <img src="images/backdrop8_web.jpg" alt="" />
+      </div>
+      <div class="hm-cell hm-q1" data-cycle>
+        <img src="images/backdrop4_web.jpg" alt="" class="active" />
+        <img src="images/backdrop5_web.jpg" alt="" />
+        <img src="images/backdrop6_web.jpg" alt="" />
+        <img src="images/backdrop7_web.jpg" alt="" />
+        <img src="images/backdrop8_web.jpg" alt="" />
+        <img src="images/backdrop2_web.jpg" alt="" />
+        <img src="images/backdrop3_web.jpg" alt="" />
+      </div>
+      <div class="hm-cell hm-q2" data-cycle>
+        <img src="images/backdrop6_web.jpg" alt="" class="active" />
+        <img src="images/backdrop7_web.jpg" alt="" />
+        <img src="images/backdrop8_web.jpg" alt="" />
+        <img src="images/backdrop2_web.jpg" alt="" />
+        <img src="images/backdrop3_web.jpg" alt="" />
+        <img src="images/backdrop4_web.jpg" alt="" />
+        <img src="images/backdrop5_web.jpg" alt="" />
+      </div>
+    </div>
   </div>
 
   <div class="hero-scrim"></div>
@@ -1681,7 +1712,7 @@
 <!-- ── FOOTER ── -->
 <footer>
   <div class="footer-brand">Paril · Fade Mansion</div>
-  <div class="footer-right">Powered by <a href="#">Mindset LLC</a> &nbsp;·&nbsp; v0.1.24</div>
+  <div class="footer-right">Powered by <a href="#">Mindset LLC</a> &nbsp;·&nbsp; v0.1.25</div>
 </footer>
 
 <script>
@@ -2080,6 +2111,27 @@
     colorLight: '#161616',
     correctLevel: QRCode.CorrectLevel.M
   });
+</script>
+
+<script>
+(function () {
+  var cells = document.querySelectorAll('.hero-mosaic [data-cycle]');
+  var INTERVAL_MS = 4200;
+  var STAGGER_MS  = 1400;
+  cells.forEach(function (cell, i) {
+    var imgs = cell.querySelectorAll('img');
+    if (imgs.length < 2) return;
+    var idx = 0;
+    function tick() {
+      var nextIdx = (idx + 1) % imgs.length;
+      imgs[nextIdx].classList.add('active');
+      var prev = imgs[idx];
+      setTimeout(function () { prev.classList.remove('active'); }, 1200);
+      idx = nextIdx;
+    }
+    setTimeout(function () { tick(); setInterval(tick, INTERVAL_MS); }, i * STAGGER_MS);
+  });
+})();
 </script>
 </body>
 </html>

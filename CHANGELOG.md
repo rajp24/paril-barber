@@ -1,3 +1,14 @@
+## v0.1.24 · May 4, 2026
+
+**Hero desktop mosaic — animated cycling cells with drifting anchor**
+Redesigned the desktop mosaic: anchor image on the left gets a slow Ken Burns drift, three right-side cells cycle through all backdrop images independently with staggered timing and 1.2s crossfades.
+
+You can now see the mosaic subtly come alive on desktop — the three right panels quietly rotate through all the hero photos while the main image drifts.
+
+📄 index.html
+
+---
+
 ## v0.1.23 · May 4, 2026
 
 **Hero desktop — photo mosaic collage behind PARIL text**
