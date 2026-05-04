@@ -1,3 +1,14 @@
+## v0.1.17 · May 1, 2026
+
+**Swap video reel cuts 02 and 04 with new footage**
+Replaced second.mp4 with new1.MOV and fourth.mp4 with new2.MOV in the video reel.
+
+You can now see the updated video cuts in positions 02 and 04 of the reel.
+
+📄 index.html
+
+---
+
 ## v0.1.16 · May 1, 2026
 
 **Fix hero slideshow — start with backdrop_web.jpg**
