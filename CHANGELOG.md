@@ -1,3 +1,14 @@
+## v0.1.24 · May 4, 2026
+
+**Hero desktop — natural aspect ratio with radial mask blend**
+Switched desktop hero back to object-fit: contain so images show at full natural size, and applied a radial CSS mask so the edges dissolve into the dark background with no hard border. Bottom gradient kept for text readability. Mobile untouched.
+
+You can now see the full image on desktop with edges that fade naturally into the site — no cropping, no letterbox lines, no overlaid gradients.
+
+📄 index.html
+
+---
+
 ## v0.1.23 · May 4, 2026
 
 **Hero images — vignette blend on desktop**
