@@ -1,3 +1,14 @@
+## v0.1.21 · May 4, 2026
+
+**Add terms and conditions page**
+Created terms.html covering the SMS waitlist program name, message frequency, carrier rate disclosure, STOP/HELP instructions, and contact info — styled to match the site and privacy policy.
+
+You can now link to /terms.html wherever required for SMS compliance.
+
+📄 terms.html
+
+---
+
 ## v0.1.20 · May 4, 2026
 
 **Add privacy policy page**
