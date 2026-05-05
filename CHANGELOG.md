@@ -1,3 +1,14 @@
+## v0.1.25 · May 5, 2026
+
+**Add footer links for terms and privacy policy**
+Added bottom-of-page links to the Terms of Service and Privacy Policy pages so SMS/Twilio compliance pages are easy to find from the main landing page.
+
+You can now access both legal pages directly from the footer whenever they need to be reviewed or submitted for approval.
+
+📄 index.html
+
+---
+
 ## v0.1.24 · May 4, 2026
 
 **Hero desktop mosaic — animated cycling cells with drifting anchor**
