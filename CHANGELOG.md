@@ -1,3 +1,25 @@
+## v0.1.27 · May 6, 2026
+
+**Month filter for Past Blasts in admin**
+Added a month dropdown above the blast history table that filters blasts by month. Dropdown is populated dynamically from months that actually have blasts, defaults to the current month, and shows a count like "3 blasts".
+
+You can now jump to any previous month's blast history from the dropdown — only months with at least one blast appear as options.
+
+📄 admin.html, api/get-slots.js
+
+---
+
+## v0.1.26 · May 6, 2026
+
+**Add "available until" date to waitlist**
+Added an optional date field to both waitlist forms so people can specify when they need a haircut by. The slot blast now only messages people whose deadline hasn't passed. Admin shows the date per entry, greyed out if expired.
+
+You can now set a deadline when joining the waitlist — if your date passes before a slot opens, you won't get blasted.
+
+📄 index.html, admin.html, api/join-waitlist.js, api/send-slot-blast.js, api/setup-db.js, api/get-waitlist.js
+
+---
+
 ## v0.1.25 · May 5, 2026
 
 **Add footer links for terms and privacy policy**

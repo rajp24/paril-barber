@@ -376,12 +376,56 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* Blast filter row */
+    .blast-filter-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 28px;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .blast-filter-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .blast-filter-select {
+      background: var(--surface2);
+      border: 0.5px solid var(--border2);
+      border-radius: var(--r);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      padding: 7px 12px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color .2s;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+    .blast-filter-select:focus { border-color: var(--accent); }
+
+    .blast-filter-count {
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
     @media (max-width: 600px) {
       .admin-header { padding: 0 16px; }
       .admin-main   { padding: 24px 12px 60px; }
       .card-body    { padding: 16px; }
       .card-header  { padding: 16px; }
       .form-row     { grid-template-columns: 1fr; }
+      .blast-filter-row { padding: 12px 16px; }
     }
   </style>
 </head>
@@ -454,6 +498,13 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title">Past Blasts</div>
+      </div>
+      <div class="blast-filter-row">
+        <span class="blast-filter-label">Showing:</span>
+        <select class="blast-filter-select" id="month-select">
+          <option value="">Loading…</option>
+        </select>
+        <span class="blast-filter-count" id="blast-filter-count"></span>
       </div>
       <div class="card-body" style="padding:0">
         <div class="table-wrap">
@@ -643,7 +694,7 @@
         dateInput.value = '';
         timeInput.value = '';
         updatePreview();
-        loadSlots();
+        loadSlots(document.getElementById('month-select').value);
       } else {
         setFeedback('blast-feedback', data.error || 'Something went wrong.', 'error');
       }
@@ -656,14 +707,44 @@
   });
 
   // ── BLAST HISTORY ──
-  async function loadSlots() {
-    const tbody = document.getElementById('slots-tbody');
+  let slotsInitialized = false;
+
+  function formatMonthLabel(yyyyMM) {
+    if (!yyyyMM) return yyyyMM;
+    const [y, m] = yyyyMM.split('-');
+    const label = new Date(+y, +m - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    return label;
+  }
+
+  async function loadSlots(month) {
+    const tbody  = document.getElementById('slots-tbody');
+    const select = document.getElementById('month-select');
+    const countEl = document.getElementById('blast-filter-count');
+
     try {
-      const res  = await fetch(`/api/get-slots?password=${encodeURIComponent(password)}`);
+      const monthParam = month ? `&month=${encodeURIComponent(month)}` : '';
+      const res  = await fetch(`/api/get-slots?password=${encodeURIComponent(password)}${monthParam}`);
       const data = await res.json();
 
+      // Populate dropdown once (or whenever months list arrives)
+      if (data.months && data.months.length > 0) {
+        const currentVal = select.value && select.value !== 'Loading…' ? select.value : (data.month || data.months[0]);
+        select.innerHTML = data.months.map(m =>
+          `<option value="${m}"${m === currentVal ? ' selected' : ''}>${formatMonthLabel(m)}</option>`
+        ).join('');
+        if (!slotsInitialized) {
+          select.addEventListener('change', () => loadSlots(select.value));
+          slotsInitialized = true;
+        }
+      } else if (!slotsInitialized) {
+        select.innerHTML = '<option value="">No blasts yet</option>';
+      }
+
+      const count = data.slots ? data.slots.length : 0;
+      countEl.textContent = count === 1 ? '1 blast' : `${count} blasts`;
+
       if (!data.slots || data.slots.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No blasts sent yet.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="empty-state">No blasts this month.</td></tr>';
         return;
       }
 
@@ -677,6 +758,7 @@
       `).join('');
     } catch {
       tbody.innerHTML = '<tr><td colspan="4" class="empty-state">Failed to load.</td></tr>';
+      countEl.textContent = '';
     }
   }
 

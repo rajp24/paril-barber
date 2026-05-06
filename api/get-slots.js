@@ -12,14 +12,28 @@ module.exports = async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
+  // Default to current month if none provided
+  const { month } = req.query;
+  const targetMonth = month || new Date().toISOString().slice(0, 7);
+
   try {
-    const rows = await sql`
+    // All distinct months that have at least one blast (for dropdown)
+    const monthRows = await sql`
+      SELECT DISTINCT TO_CHAR(created_at, 'YYYY-MM') AS month
+      FROM open_slots
+      ORDER BY month DESC
+    `;
+    const months = monthRows.map(r => r.month);
+
+    // Slots filtered to the target month
+    const slots = await sql`
       SELECT id, date, time, created_at, sent
       FROM open_slots
+      WHERE TO_CHAR(created_at, 'YYYY-MM') = ${targetMonth}
       ORDER BY created_at DESC
-      LIMIT 10
     `;
-    return res.status(200).json({ success: true, slots: rows });
+
+    return res.status(200).json({ success: true, slots, months, month: targetMonth });
   } catch (err) {
     console.error('get-slots error:', err);
     return res.status(500).json({ error: err.message });
