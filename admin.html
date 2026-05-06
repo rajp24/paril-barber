@@ -489,11 +489,12 @@
                 <th>Name</th>
                 <th>Phone</th>
                 <th>Joined</th>
+                <th>Available Until</th>
                 <th></th>
               </tr>
             </thead>
             <tbody id="waitlist-tbody">
-              <tr><td colspan="5" class="empty-state">Loading...</td></tr>
+              <tr><td colspan="6" class="empty-state">Loading...</td></tr>
             </tbody>
           </table>
         </div>
@@ -687,26 +688,36 @@
       const data = await res.json();
 
       if (!data.waitlist || data.waitlist.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Waitlist is empty.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Waitlist is empty.</td></tr>';
         document.getElementById('waitlist-badge').textContent = '0';
         return;
       }
 
       document.getElementById('waitlist-badge').textContent = data.waitlist.length;
 
-      tbody.innerHTML = data.waitlist.map((p, i) => `
+      const today = new Date().toISOString().split('T')[0];
+      tbody.innerHTML = data.waitlist.map((p, i) => {
+        let untilCell;
+        if (!p.available_until) {
+          untilCell = '<span style="color:#555">No limit</span>';
+        } else {
+          const past = p.available_until < today;
+          untilCell = `<span style="color:${past ? '#555' : '#aaa'}">${p.available_until}</span>`;
+        }
+        return `
         <tr id="row-${p.id}">
           <td class="pos">${i + 1}</td>
           <td>${p.name}</td>
           <td class="phone">${formatPhone(p.phone)}</td>
           <td class="joined">${formatDate(p.joined_at)}</td>
+          <td>${untilCell}</td>
           <td>
             <button class="btn btn-danger" onclick="removeEntry(${p.id})">Remove</button>
           </td>
-        </tr>
-      `).join('');
+        </tr>`;
+      }).join('');
     } catch {
-      tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Failed to load.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Failed to load.</td></tr>';
     }
   }
 
@@ -740,7 +751,7 @@
 
         if (newCount === 0) {
           document.getElementById('waitlist-tbody').innerHTML =
-            '<tr><td colspan="5" class="empty-state">Waitlist is empty.</td></tr>';
+            '<tr><td colspan="6" class="empty-state">Waitlist is empty.</td></tr>';
         }
       }
     } catch {

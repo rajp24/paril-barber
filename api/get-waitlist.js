@@ -14,7 +14,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const rows = await sql`
-      SELECT id, name, phone, joined_at
+      SELECT id, name, phone, joined_at, available_until
       FROM waitlist
       WHERE active = true
       ORDER BY joined_at ASC

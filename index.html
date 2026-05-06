@@ -865,6 +865,17 @@
     }
     .waitlist-input::placeholder { color: var(--muted); opacity: 1; }
     .waitlist-input:focus { border-color: var(--accent); }
+    .waitlist-input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.6);
+      cursor: pointer;
+    }
+    .waitlist-helper {
+      font-size: 12px;
+      color: rgba(240,237,230,0.35);
+      line-height: 1.5;
+      flex-basis: 100%;
+      margin-top: -4px;
+    }
 
     /* ─── SOCIALS ─── */
     #socials {
@@ -1203,6 +1214,17 @@
     }
     .wl-input::placeholder { color: rgba(240,237,230,0.3); }
     .wl-input:focus { border-color: var(--accent); }
+    .wl-input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.6);
+      cursor: pointer;
+    }
+    .wl-helper {
+      font-size: 12px;
+      color: rgba(240,237,230,0.35);
+      margin-top: -6px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
 
     .wl-submit {
       display: block;
@@ -1349,6 +1371,8 @@
       <form id="wl-modal-form" onsubmit="return false;">
         <input type="text"  class="wl-input" id="wl-modal-name"  placeholder="Your Name"    autocomplete="name" />
         <input type="tel"   class="wl-input" id="wl-modal-phone" placeholder="Phone Number"  autocomplete="tel"  />
+        <input type="date"  class="wl-input" id="wl-modal-until" />
+        <p class="wl-helper">Optional — leave blank to stay on the list indefinitely</p>
         <button type="submit" class="wl-submit" id="wl-modal-btn">Join the Waitlist</button>
       </form>
     </div>
@@ -1661,6 +1685,8 @@
   <form class="waitlist-form fade-up" style="transition-delay:240ms" id="waitlist-form" onsubmit="return false;">
     <input type="text" class="waitlist-input" id="wl-name" placeholder="Your Name" autocomplete="name" />
     <input type="tel" class="waitlist-input" id="wl-phone" placeholder="Phone Number" autocomplete="tel" />
+    <input type="date" class="waitlist-input" id="wl-until" />
+    <p class="waitlist-helper">Optional — leave blank to stay on the list indefinitely</p>
     <button type="submit" class="btn-primary" id="wl-btn">Notify Me</button>
   </form>
   <p id="wl-msg" style="margin-top:14px;font-size:15px;min-height:20px;"></p>
@@ -1731,7 +1757,7 @@
       <a href="/privacy-policy.html">Privacy Policy</a>
     </div>
     <span>·</span>
-    <div>Powered by <a href="#">Mindset LLC</a> · v0.1.26</div>
+    <div>Powered by <a href="#">Mindset LLC</a> · v0.1.27</div>
   </div>
 </footer>
 
@@ -1930,9 +1956,22 @@
     const form      = document.getElementById('wl-modal-form');
     const nameIn    = document.getElementById('wl-modal-name');
     const phoneIn   = document.getElementById('wl-modal-phone');
+    const untilIn   = document.getElementById('wl-modal-until');
     const submitBtn = document.getElementById('wl-modal-btn');
     const success   = document.getElementById('wl-success');
     const successPos= document.getElementById('wl-success-pos');
+
+    // Set date constraints
+    (function () {
+      const today = new Date();
+      const max   = new Date(today);
+      max.setDate(today.getDate() + 60);
+      const fmt = d => d.toISOString().split('T')[0];
+      untilIn.min = fmt(today);
+      untilIn.max = fmt(max);
+      document.getElementById('wl-until').min = fmt(today);
+      document.getElementById('wl-until').max = fmt(max);
+    })();
 
     let closeTimer = null;
     let isOpen     = false;
@@ -1968,6 +2007,7 @@
       success.classList.remove('visible');
       nameIn.value             = '';
       phoneIn.value            = '';
+      untilIn.value            = '';
       submitBtn.disabled       = false;
       submitBtn.textContent    = 'Join the Waitlist';
     }
@@ -2011,7 +2051,7 @@
         const res  = await fetch('/api/join-waitlist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, phone }),
+          body: JSON.stringify({ name, phone, available_until: untilIn.value || null }),
         });
         const data = await res.json();
 
@@ -2081,6 +2121,7 @@
   document.getElementById('waitlist-form').addEventListener('submit', async () => {
     const name  = document.getElementById('wl-name').value.trim();
     const phone = document.getElementById('wl-phone').value.trim();
+    const until = document.getElementById('wl-until').value || null;
     const msg   = document.getElementById('wl-msg');
     const btn   = document.getElementById('wl-btn');
 
@@ -2098,15 +2139,16 @@
       const res  = await fetch('/api/join-waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone }),
+        body: JSON.stringify({ name, phone, available_until: until }),
       });
       const data = await res.json();
 
       if (data.success) {
         msg.style.color = '#4caf82';
         msg.textContent = `✓ You're #${data.position} on the list. We'll text you when a slot opens.`;
-        document.getElementById('wl-name').value = '';
+        document.getElementById('wl-name').value  = '';
         document.getElementById('wl-phone').value = '';
+        document.getElementById('wl-until').value = '';
         btn.textContent = 'You\'re In';
       } else {
         msg.style.color = '#e05252';

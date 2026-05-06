@@ -28,7 +28,9 @@ module.exports = async function handler(req, res) {
 
   try {
     const rows = await sql`
-      SELECT id, name, phone FROM waitlist WHERE active = true
+      SELECT id, name, phone FROM waitlist
+      WHERE active = true
+        AND (available_until IS NULL OR available_until >= CURRENT_DATE)
     `;
 
     console.log(`[blast] fetched ${rows.length} recipients from waitlist`);

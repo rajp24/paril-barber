@@ -13,7 +13,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { name, phone } = req.body || {};
+  const { name, phone, available_until } = req.body || {};
 
   if (!name || !name.trim()) {
     return res.status(400).json({ error: 'Name is required' });
@@ -28,8 +28,11 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    const until = available_until && available_until.trim() ? available_until.trim() : null;
+
     await sql`
-      INSERT INTO waitlist (name, phone) VALUES (${name.trim()}, ${formatted})
+      INSERT INTO waitlist (name, phone, available_until)
+      VALUES (${name.trim()}, ${formatted}, ${until})
     `;
 
     const rows = await sql`

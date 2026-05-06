@@ -23,7 +23,11 @@ module.exports = async function handler(req, res) {
       )
     `;
 
-    return res.status(200).json({ success: true, message: 'Tables created successfully' });
+    await sql`
+      ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS available_until DATE
+    `;
+
+    return res.status(200).json({ success: true, message: 'Tables created and migrated successfully' });
   } catch (err) {
     console.error('setup-db error:', err);
     return res.status(500).json({ success: false, error: err.message });

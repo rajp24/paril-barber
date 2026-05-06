@@ -9,6 +9,17 @@ You can now access both legal pages directly from the footer whenever they need 
 
 ---
 
+## v0.1.26 · May 6, 2026
+
+**Add "available until" date to waitlist**
+Added an optional date field to both waitlist forms so people can specify when they need a haircut by. The slot blast now only messages people whose deadline hasn't passed. Admin shows the date per entry, greyed out if expired.
+
+You can now set a deadline when joining the waitlist — if your date passes before a slot opens, you won't get blasted.
+
+📄 index.html, admin.html, api/join-waitlist.js, api/send-slot-blast.js, api/setup-db.js, api/get-waitlist.js
+
+---
+
 ## v0.1.24 · May 4, 2026
 
 **Hero desktop mosaic — animated cycling cells with drifting anchor**
