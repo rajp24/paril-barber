@@ -1,3 +1,14 @@
+## v0.1.28 · May 8, 2026
+
+**Add SMS consent disclosure to waitlist forms for 10DLC compliance**
+Added the required SMS consent language directly below the phone input on both the waitlist section form and the modal popup, with links to the Privacy Policy and Terms pages.
+
+You can now see the full opt-in disclosure on both waitlist forms — required for Twilio 10DLC registration approval.
+
+📄 index.html
+
+---
+
 ## v0.1.27 · May 6, 2026
 
 **Month filter for Past Blasts in admin**
