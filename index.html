@@ -876,6 +876,10 @@
       flex-basis: 100%;
       margin-top: -4px;
     }
+    .waitlist-form .wl-consent {
+      flex-basis: 100%;
+      margin-top: 0;
+    }
 
     /* ─── SOCIALS ─── */
     #socials {
@@ -1251,11 +1255,25 @@
     .wl-form-wrap.fading { opacity: 0; }
 
     .wl-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
       font-size: 11px;
       color: rgba(240,237,230,0.5);
       line-height: 1.6;
       max-width: 100%;
       margin-bottom: 12px;
+    }
+    .wl-consent input {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      margin-top: 1px;
+      accent-color: #7ab8d4;
+      cursor: pointer;
+    }
+    .wl-consent span {
+      display: block;
     }
     .wl-consent a {
       color: #7ab8d4;
@@ -1386,7 +1404,10 @@
         <input type="tel"   class="wl-input" id="wl-modal-phone" placeholder="Phone Number"  autocomplete="tel"  />
         <input type="date"  class="wl-input" id="wl-modal-until" />
         <p class="wl-helper">Optional — leave blank to stay on the list indefinitely</p>
-        <p class="wl-consent">By submitting this form, you agree to receive SMS notifications from Paril's barbershop about appointment availability. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. View our <a href="/privacy-policy.html">Privacy Policy</a> and <a href="/terms.html">Terms</a>.</p>
+        <label class="wl-consent" for="wl-modal-consent">
+          <input type="checkbox" id="wl-modal-consent" required />
+          <span>By checking this box, you agree to receive SMS appointment availability and waitlist notifications from Paril The Barber. Msg &amp; data rates may apply. Message frequency varies. Reply STOP to opt out, HELP for help. View our <a href="/privacy-policy.html">Privacy Policy</a> and <a href="/terms.html">Terms</a>.</span>
+        </label>
         <button type="submit" class="wl-submit" id="wl-modal-btn">Join the Waitlist</button>
       </form>
     </div>
@@ -1701,7 +1722,10 @@
     <input type="tel" class="waitlist-input" id="wl-phone" placeholder="Phone Number" autocomplete="tel" />
     <input type="date" class="waitlist-input" id="wl-until" />
     <p class="waitlist-helper">Optional — leave blank to stay on the list indefinitely</p>
-    <p class="wl-consent" style="margin-top:4px;">By submitting this form, you agree to receive SMS notifications from Paril's barbershop about appointment availability. Msg frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. View our <a href="/privacy-policy.html">Privacy Policy</a> and <a href="/terms.html">Terms</a>.</p>
+    <label class="wl-consent" for="wl-consent">
+      <input type="checkbox" id="wl-consent" required />
+      <span>By checking this box, you agree to receive SMS appointment availability and waitlist notifications from Paril The Barber. Msg &amp; data rates may apply. Message frequency varies. Reply STOP to opt out, HELP for help. View our <a href="/privacy-policy.html">Privacy Policy</a> and <a href="/terms.html">Terms</a>.</span>
+    </label>
     <button type="submit" class="btn-primary" id="wl-btn">Notify Me</button>
   </form>
   <p id="wl-msg" style="margin-top:14px;font-size:15px;min-height:20px;"></p>
@@ -1972,6 +1996,7 @@
     const nameIn    = document.getElementById('wl-modal-name');
     const phoneIn   = document.getElementById('wl-modal-phone');
     const untilIn   = document.getElementById('wl-modal-until');
+    const consentIn = document.getElementById('wl-modal-consent');
     const submitBtn = document.getElementById('wl-modal-btn');
     const success   = document.getElementById('wl-success');
     const successPos= document.getElementById('wl-success-pos');
@@ -2023,6 +2048,7 @@
       nameIn.value             = '';
       phoneIn.value            = '';
       untilIn.value            = '';
+      consentIn.checked        = false;
       submitBtn.disabled       = false;
       submitBtn.textContent    = 'Join the Waitlist';
     }
@@ -2056,6 +2082,12 @@
           nameIn.style.borderColor  = '';
           phoneIn.style.borderColor = '';
         }, 1800);
+        return;
+      }
+
+      if (!consentIn.checked) {
+        consentIn.focus();
+        consentIn.reportValidity();
         return;
       }
 
@@ -2137,12 +2169,20 @@
     const name  = document.getElementById('wl-name').value.trim();
     const phone = document.getElementById('wl-phone').value.trim();
     const until = document.getElementById('wl-until').value || null;
+    const consent = document.getElementById('wl-consent');
     const msg   = document.getElementById('wl-msg');
     const btn   = document.getElementById('wl-btn');
 
     if (!name || !phone) {
       msg.style.color = '#e05252';
       msg.textContent = 'Please enter your name and phone number.';
+      return;
+    }
+
+    if (!consent.checked) {
+      msg.style.color = '#e05252';
+      msg.textContent = 'Please check the SMS consent box to join the waitlist.';
+      consent.focus();
       return;
     }
 
@@ -2164,6 +2204,7 @@
         document.getElementById('wl-name').value  = '';
         document.getElementById('wl-phone').value = '';
         document.getElementById('wl-until').value = '';
+        consent.checked = false;
         btn.textContent = 'You\'re In';
       } else {
         msg.style.color = '#e05252';
