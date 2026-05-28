@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Paril">
+  <rect width="64" height="64" rx="12" fill="#0d0d0d"/>
+  <text
+    x="32"
+    y="46"
+    text-anchor="middle"
+    font-family="'Bebas Neue', Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+    font-size="48"
+    font-weight="400"
+    letter-spacing="1"
+    fill="#f0ede6">P</text>
+</svg>
