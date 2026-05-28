@@ -880,6 +880,10 @@
       flex-basis: 100%;
       margin-top: 0;
     }
+    .waitlist-form .wl-legal-links {
+      flex-basis: 100%;
+      margin-top: -2px;
+    }
 
     /* ─── SOCIALS ─── */
     #socials {
@@ -1281,6 +1285,24 @@
     }
     .wl-consent a:hover { text-decoration: underline; }
 
+    .wl-legal-links {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      font-size: 11px;
+      line-height: 1.4;
+      margin-top: 10px;
+    }
+    .wl-legal-links a {
+      color: rgba(240,237,230,0.58);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color .2s;
+    }
+    .wl-legal-links a:hover {
+      color: #7ab8d4;
+    }
+
     .wl-success {
       display: none;
       text-align: center;
@@ -1409,6 +1431,10 @@
           <span>By checking this box, you agree to receive SMS appointment availability and waitlist notifications from Paril The Barber. Msg &amp; data rates may apply. Message frequency varies. Reply STOP to opt out, HELP for help. View our <a href="/privacy-policy.html">Privacy Policy</a> and <a href="/terms.html">Terms</a>.</span>
         </label>
         <button type="submit" class="wl-submit" id="wl-modal-btn">Join the Waitlist</button>
+        <p class="wl-legal-links">
+          <a href="/privacy-policy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms of Service</a>
+        </p>
       </form>
     </div>
 
@@ -1727,6 +1753,10 @@
       <span>By checking this box, you agree to receive SMS appointment availability and waitlist notifications from Paril The Barber. Msg &amp; data rates may apply. Message frequency varies. Reply STOP to opt out, HELP for help. View our <a href="/privacy-policy.html">Privacy Policy</a> and <a href="/terms.html">Terms</a>.</span>
     </label>
     <button type="submit" class="btn-primary" id="wl-btn">Notify Me</button>
+    <p class="wl-legal-links">
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Service</a>
+    </p>
   </form>
   <p id="wl-msg" style="margin-top:14px;font-size:15px;min-height:20px;"></p>
 </section>
